@@ -2774,14 +2774,13 @@ html[dir="rtl"] .footer-contact li > a { flex-direction: row !important; }
   background-size: 32px 32px;
 }
 
-/* ── Container ── */
 .index-hero-section .index-hero-container {
   position: relative;
   z-index: 10;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 48px 80px;
+  padding: 120px 48px 80px;
   display: flex;
   align-items: flex-end;
   justify-content: flex-start;
