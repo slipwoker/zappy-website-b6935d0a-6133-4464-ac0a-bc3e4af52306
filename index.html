@@ -1,0 +1,1660 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <title>בונים מערכות שעובדות — DAiM Technology</title>
+    <meta name="description" content="דריה קרייף בונה עבורך מערכת עסקית מלאה מקצה לקצה — בינה מלאכותית, אוטומציות עסקיות ועיצוב UX בפתרון אחד שלם. הבעלות עוברת אליך.">
+    <meta name="keywords" content="אוטומציות עסקיות, בינה מלאכותית לעסקים, Prompt Engineering, מערכות עסקיות חכמות, אפליקציה">
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <!-- Zappy Analytics -->
+<script>
+(function() {
+  'use strict';
+  
+  // Configuration
+  var config = {
+    websiteId: 'b6935d0a-6133-4464-ac0a-bc3e4af52306',
+    apiUrl: 'https://api.zappy5.com/api/analytics/track',
+    sessionDuration: 30 * 60 * 1000, // 30 minutes
+    visitorDuration: 30 * 24 * 60 * 60 * 1000, // 30 days
+    trackPageViews: true,
+    trackClicks: true,
+    trackFormSubmissions: true
+  };
+  
+  // Generate or retrieve persistent visitor ID (30 days)
+  function getVisitorId() {
+    var visitorKey = 'zappy_visitor_' + config.websiteId;
+    var visitor = null;
+    
+    try {
+      visitor = localStorage.getItem(visitorKey);
+      if (visitor) {
+        var visitorData = JSON.parse(visitor);
+        var now = Date.now();
+        
+        // Check if visitor ID is still valid (30 days)
+        if (now - visitorData.created < config.visitorDuration) {
+          // Update last seen timestamp
+          visitorData.lastSeen = now;
+          localStorage.setItem(visitorKey, JSON.stringify(visitorData));
+          return visitorData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: LocalStorage not available');
+    }
+    
+    // Generate new visitor ID
+    var newVisitorId = 'zv_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      localStorage.setItem(visitorKey, JSON.stringify({
+        id: newVisitorId,
+        created: Date.now(),
+        lastSeen: Date.now()
+      }));
+    } catch (e) {
+      // Continue without local storage
+    }
+    
+    return newVisitorId;
+  }
+  
+  // Generate or retrieve session ID (30 minutes)
+  function getSessionId() {
+    var sessionKey = 'zappy_session_' + config.websiteId;
+    var session = null;
+    
+    try {
+      session = sessionStorage.getItem(sessionKey);
+      if (session) {
+        var sessionData = JSON.parse(session);
+        var now = Date.now();
+        
+        // Check if session is still valid
+        if (now - sessionData.timestamp < config.sessionDuration) {
+          // Update timestamp
+          sessionData.timestamp = now;
+          sessionStorage.setItem(sessionKey, JSON.stringify(sessionData));
+          return sessionData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: SessionStorage not available');
+    }
+    
+    // Generate new session ID
+    var newSessionId = 'zs_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      sessionStorage.setItem(sessionKey, JSON.stringify({
+        id: newSessionId,
+        timestamp: Date.now()
+      }));
+    } catch (e) {
+      // Continue without session storage
+    }
+    
+    return newSessionId;
+  }
+  
+  var visitorId = getVisitorId();
+  var sessionId = getSessionId();
+  
+  // Track an event
+  function trackEvent(eventType, data) {
+    data = data || {};
+    
+    var eventData = {
+      website_id: config.websiteId,
+      event_type: eventType,
+      page_path: window.location.pathname,
+      referrer: document.referrer || 'direct',
+      visitor_id: visitorId,
+      session_id: sessionId,
+      metadata: data
+    };
+    
+    // Use sendBeacon if available (better for page unload events)
+    if (navigator.sendBeacon) {
+      var blob = new Blob([JSON.stringify(eventData)], { type: 'application/json' });
+      navigator.sendBeacon(config.apiUrl, blob);
+    } else {
+      // Fallback to fetch
+      fetch(config.apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(eventData),
+        keepalive: true
+      }).catch(function(error) {
+        console.warn('Zappy Analytics: Failed to track event', error);
+      });
+    }
+  }
+  
+  // Track page view
+  if (config.trackPageViews) {
+    trackEvent('pageview', {
+      title: document.title,
+      url: window.location.href
+    });
+  }
+  
+  // Track clicks on important elements
+  if (config.trackClicks) {
+    document.addEventListener('click', function(e) {
+      var target = e.target;
+      
+      // Track button clicks (counted as actions)
+      if (target.tagName === 'BUTTON' || target.closest('button')) {
+        var button = target.tagName === 'BUTTON' ? target : target.closest('button');
+        trackEvent('click', {
+          element: 'button',
+          text: button.textContent.trim().substring(0, 100),
+          id: button.id || null,
+          class: button.className || null
+        });
+      }
+      
+      // Track link clicks (navigation - not counted as actions)
+      else if (target.tagName === 'A' || target.closest('a')) {
+        var link = target.tagName === 'A' ? target : target.closest('a');
+        trackEvent('navigation', {
+          element: 'link',
+          text: link.textContent.trim().substring(0, 100),
+          href: link.href,
+          external: link.hostname !== window.location.hostname
+        });
+      }
+    }, true);
+  }
+  
+  // Track form submissions
+  if (config.trackFormSubmissions) {
+    document.addEventListener('submit', function(e) {
+      var form = e.target;
+      
+      trackEvent('form_submit', {
+        form_id: form.id || null,
+        form_name: form.name || null,
+        form_action: form.action || null,
+        form_method: form.method || 'GET'
+      });
+    }, true);
+  }
+  
+  // Track time on page (send on page unload)
+  var pageLoadTime = Date.now();
+  
+  window.addEventListener('beforeunload', function() {
+    var timeOnPage = Math.floor((Date.now() - pageLoadTime) / 1000); // in seconds
+    
+    trackEvent('page_unload', {
+      time_on_page: timeOnPage,
+      page_path: window.location.pathname
+    });
+  });
+  
+  // Expose tracking function globally for custom events
+  window.zappyAnalytics = {
+    track: trackEvent,
+    getVisitorId: function() { return visitorId; },
+    getSessionId: function() { return sessionId; }
+  };
+  
+})();
+</script>
+<!-- End Zappy Analytics -->
+    <meta property="og:title" content="בונים מערכות שעובדות — DAiM Technology">
+    <meta property="og:description" content="דריה קרייף בונה עבורך מערכת עסקית מלאה מקצה לקצה — בינה מלאכותית, אוטומציות עסקיות ועיצוב UX בפתרון אחד שלם. הבעלות עוברת אליך.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="בונים מערכות שעובדות — DAiM Technology">
+    <meta name="twitter:description" content="דריה קרייף בונה עבורך מערכת עסקית מלאה מקצה לקצה — בינה מלאכותית, אוטומציות עסקיות ועיצוב UX בפתרון אחד שלם. הבעלות עוברת אליך.">
+    <meta property="og:type" content="website">
+  <meta property="og:locale" content="he_IL">
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <!-- Cookie Consent -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css">
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"></script>
+    <!-- Mickidum Accessibility Toolbar -->
+    <script src="https://cdn.jsdelivr.net/gh/mickidum/acc_toolbar/acctoolbar/acctoolbar.min.js"></script>
+    <link rel="stylesheet" href="/styles.css">
+
+    <style id="zappy-dropdown-submenu-styles">
+      /* ========== DESKTOP DROPDOWN SUBMENU STYLES ========== */
+      /* Base styles for dropdown submenus - parent must be positioned */
+      .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { position: relative; }
+      /* Submenu base - hidden by default */
+      .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { display: block !important; position: absolute !important; top: 100%; left: 0; min-width: 220px; background: white; border-radius: 8px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); padding: 8px 0; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; z-index: 1000; list-style: none; pointer-events: none; }
+      /* CRITICAL: Desktop hover styles to show dropdown */
+      .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Submenu item styling */
+      .sub-menu li { list-style: none; margin: 0; padding: 0; }
+      .sub-menu a { display: block !important; padding: 10px 16px !important; color: var(--text-dark, #333) !important; font-weight: 500; text-decoration: none; white-space: nowrap; transition: background-color 0.2s; }
+      .sub-menu .zappy-nav-child > a { padding-left: 28px !important; font-size: 0.9em !important; opacity: 0.85 !important; }
+      [dir="rtl"] .sub-menu .zappy-nav-child > a, html[lang="he"] .sub-menu .zappy-nav-child > a, html[lang="ar"] .sub-menu .zappy-nav-child > a { padding-left: 10px !important; padding-right: 28px !important; }
+      .sub-menu .zappy-nav-parent > a { font-weight: 600 !important; }
+      .sub-menu a:hover { background-color: #f5f5f5; }
+      /* RTL (Hebrew/Arabic) dropdown positioning */
+      [dir="rtl"] .nav-menu .sub-menu, [dir="rtl"] nav .sub-menu, [dir="rtl"] .navbar .sub-menu, html[lang="he"] .nav-menu .sub-menu, html[lang="he"] nav .sub-menu, html[lang="he"] .navbar .sub-menu, html[lang="ar"] .nav-menu .sub-menu, html[lang="ar"] nav .sub-menu, html[lang="ar"] .navbar .sub-menu { left: auto !important; right: 0 !important; }
+      /* Hide empty dropdown menus (exclude catalog sub-menus that use <a> children instead of <li>) */
+      .sub-menu:empty, .sub-menu:not(:has(li:not(.zappy-hidden-menu-item))):not(:has(> a)), .sub-menu:not(:has(li)):not(:has(> a)) { display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
+      /* Desktop: show submenu on Menu Group hover */
+      li:has(.menu-group-title):hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Menu Group title styling */
+      .nav-menu > li > .menu-group-title, #navMenu > li > .menu-group-title { display: inline-block; padding: 0.5rem 1rem; cursor: default; user-select: none; }
+      
+      /* ========== MOBILE SUBMENU STYLES ========== */
+      @media (max-width: 768px) {
+        .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { position: static !important; transform: none !important; box-shadow: none !important; background: transparent !important; max-height: 0; overflow: hidden; opacity: 0; visibility: hidden; transition: max-height 0.3s ease, opacity 0.3s ease; padding: 0 !important; border-radius: 0 !important; }
+        .navbar .sub-menu.mobile-expanded, .nav-menu .sub-menu.mobile-expanded, #navMenu .sub-menu.mobile-expanded { max-height: none !important; overflow-y: visible !important; opacity: 1 !important; visibility: visible !important; padding: 8px 0 8px 16px !important; }
+        [dir="rtl"] .sub-menu.mobile-expanded, html[lang="he"] .sub-menu.mobile-expanded { padding: 8px 16px 8px 0 !important; }
+        /* Disable hover behavior on mobile */
+        .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 0; visibility: hidden; pointer-events: none; }
+        .nav-menu li > .sub-menu.mobile-expanded, nav li > .sub-menu.mobile-expanded, .navbar li > .sub-menu.mobile-expanded, #navMenu li > .sub-menu.mobile-expanded { opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; }
+        .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { display: flex !important; flex-wrap: wrap !important; align-items: center !important; position: relative !important; min-height: 44px !important; }
+        .nav-menu li:has(.sub-menu) > a, nav li:has(.sub-menu) > a, .navbar li:has(.sub-menu) > a, #navMenu li:has(.sub-menu) > a { flex: 1 !important; min-width: 0 !important; }
+        .nav-menu li:has(.sub-menu) > .menu-group-title, nav li:has(.sub-menu) > .menu-group-title, .navbar li:has(.sub-menu) > .menu-group-title, #navMenu li:has(.sub-menu) > .menu-group-title { flex: 1 !important; min-width: 0 !important; padding: 0 !important; line-height: inherit !important; }
+        .nav-menu li:has(.sub-menu) > .sub-menu, nav li:has(.sub-menu) > .sub-menu, .navbar li:has(.sub-menu) > .sub-menu, #navMenu li:has(.sub-menu) > .sub-menu { flex-basis: 100% !important; width: 100% !important; }
+        .nav-menu li:has(.sub-menu) > a [class*="chevron"], .nav-menu li:has(.sub-menu) > a [class*="arrow"], .nav-menu li:has(.sub-menu) > a .fa-chevron-down, .nav-menu li:has(.sub-menu) > a .fa-angle-down, nav li:has(.sub-menu) > a [class*="chevron"], nav li:has(.sub-menu) > a [class*="arrow"], #navMenu li:has(.sub-menu) > a [class*="chevron"], #navMenu li:has(.sub-menu) > a [class*="arrow"] { display: none !important; visibility: hidden !important; }
+        .mobile-submenu-toggle { display: flex !important; align-items: center !important; justify-content: center !important; width: 44px !important; height: auto !important; background: transparent !important; border: none !important; cursor: pointer !important; color: var(--text-light) !important; position: static !important; flex-shrink: 0 !important; align-self: stretch !important; z-index: 2 !important; padding: 0 !important; margin: 0 !important; }
+        .mobile-submenu-toggle::after { content: '' !important; width: 0 !important; height: 0 !important; border-left: 6px solid transparent !important; border-right: 6px solid transparent !important; border-top: 7px solid currentColor !important; transition: transform 0.3s ease !important; }
+        .mobile-submenu-toggle.expanded::after { transform: rotate(180deg) !important; }
+        .sub-menu a { padding: 10px 0 !important; display: block !important; color: var(--text-light) !important; white-space: normal !important; }
+        .sub-menu .zappy-nav-child > a { padding-left: 28px !important; font-size: 0.9em !important; opacity: 0.85 !important; }
+        [dir="rtl"] .sub-menu .zappy-nav-child > a, html[lang="he"] .sub-menu .zappy-nav-child > a, html[lang="ar"] .sub-menu .zappy-nav-child > a { padding-left: 0 !important; padding-right: 28px !important; }
+        .sub-menu .zappy-nav-parent > a { font-weight: 600 !important; }
+        .nav-menu.active, #navMenu.active { max-width: 100vw !important; overflow-x: hidden !important; box-sizing: border-box !important; }
+        .navbar .sub-menu li a, nav.navbar .sub-menu li a, .zappy-products-dropdown .sub-menu a { color: var(--text-light) !important; }
+      }
+      @media (min-width: 769px) { .mobile-submenu-toggle { display: none !important; } }
+    </style>
+
+    <style id="zappy-widget-visibility">
+      html[dir="rtl"] .whatsapp-float { right: 20px !important; left: auto !important; }
+      html[dir="ltr"] .whatsapp-float, html:not([dir]) .whatsapp-float { left: 20px !important; right: auto !important; }
+      html[dir="rtl"] #mic-access-tool-general-button, html[dir="rtl"] .mic-access-tool-general-button,
+      html[dir="rtl"] #mic-init-access-tool .mic-access-tool-general-button,
+      html[dir="rtl"] #mic-init-access-tool #mic-access-tool-general-button,
+      html[dir="rtl"] ._access-icon { left: 20px !important; right: auto !important; }
+      html[dir="ltr"] #mic-access-tool-general-button, html[dir="ltr"] .mic-access-tool-general-button,
+      html[dir="ltr"] #mic-init-access-tool .mic-access-tool-general-button,
+      html[dir="ltr"] #mic-init-access-tool #mic-access-tool-general-button,
+      html[dir="ltr"] ._access-icon,
+      html:not([dir]) #mic-access-tool-general-button, html:not([dir]) .mic-access-tool-general-button,
+      html:not([dir]) #mic-init-access-tool .mic-access-tool-general-button,
+      html:not([dir]) #mic-init-access-tool #mic-access-tool-general-button,
+      html:not([dir]) ._access-icon { right: 20px !important; left: auto !important; }
+      @media (max-width: 768px) { .whatsapp-float { display: flex !important; } }
+      @media (min-width: 769px) { .whatsapp-float { display: flex !important; } }
+      @media (max-width: 768px) {
+        #mic-access-tool-general-button, .mic-access-tool-general-button,
+        #mic-init-access-tool .mic-access-tool-general-button, #mic-init-access-tool #mic-access-tool-general-button,
+        ._access-icon { display: flex !important; visibility: visible !important; opacity: 1 !important; pointer-events: auto !important; }
+        #mic-access-tool-box, .mic-access-tool-box, #mic-init-access-tool #mic-access-tool-box,
+        div[id*="mic-access-tool-box"], ._access-menu {
+          visibility: hidden; opacity: 0; pointer-events: auto !important;
+        }
+      }
+      @media (min-width: 769px) {
+        #mic-access-tool-general-button, .mic-access-tool-general-button,
+        #mic-init-access-tool .mic-access-tool-general-button, #mic-init-access-tool #mic-access-tool-general-button,
+        ._access-icon { display: flex !important; visibility: visible !important; opacity: 1 !important; pointer-events: auto !important; }
+        #mic-access-tool-box, .mic-access-tool-box, #mic-init-access-tool #mic-access-tool-box,
+        div[id*="mic-access-tool-box"], ._access-menu {
+          visibility: hidden; opacity: 0; pointer-events: auto !important;
+        }
+      }
+    </style>
+</head>
+<body>
+
+  <nav class="navbar" dir="rtl">
+  <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+    <svg class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+    <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" style="display: none;">
+      <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+  </button>
+
+  <button class="phone-header-btn" data-phone="" aria-label="Call">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+    </svg>
+  </button>
+
+  <div class="nav-container">
+    <div class="nav-right-group"><div class="nav-brand">
+      <a href="/" class="logo-link">
+        <img src="/assets/daim-technology-logo.webp" alt="DAiM Technology" class="logo">
+      </a>
+    </div><ul class="nav-menu" id="navMenu"><li><a href="/">דף הבית</a></li><li><a href="/how-it-works">איך זה עובד</a></li><li><a href="/what-you-get">מה תקבל</a></li><li><a href="/pricing">מחירים</a></li></ul></div>
+
+    
+
+    <div class="nav-cta-container">
+      <a href="/contact" class="nav-cta-btn">צור קשר</a>
+    </div>
+  </div>
+</nav>
+<script>
+
+// Navbar Mobile Menu Toggle and Contrast Fix
+(function() {
+  // Use 'load' event instead of 'DOMContentLoaded' to ensure we run AFTER all other scripts
+  window.addEventListener('load', function() {
+    
+    // FIX MOBILE BUTTON CONTRAST
+    // Detect navbar background color and apply contrasting color to mobile buttons
+    const navbar = document.querySelector('.navbar, nav, header');
+    if (!navbar) {
+      console.log('[Navbar] Navbar element not found');
+      return;
+    }
+    
+    // DECLARE VARIABLES EARLY to avoid Temporal Dead Zone errors
+    // These are used in multiple places below
+    let mobileToggle = document.getElementById('mobileToggle') ||
+                       document.querySelector('.mobile-toggle') ||
+                       document.querySelector('.hamburger') ||
+                       document.querySelector('.hamburger-menu') ||
+                       document.querySelector('.menu-toggle') ||
+                       document.querySelector('.burger-menu') ||
+                       document.querySelector('[aria-label="Menu"]') ||
+                       document.querySelector('[aria-label="תפריט"]');
+    
+    const phoneBtn = document.querySelector('.phone-header-btn');
+    
+    const computedStyle = window.getComputedStyle(navbar);
+    let bgColor = computedStyle.backgroundColor;
+    
+    console.log('[Navbar] Initial navbar background:', bgColor);
+    
+    // Check if background is transparent or rgba with 0 alpha
+    const isTransparent = bgColor === 'transparent' || 
+                         bgColor === 'rgba(0, 0, 0, 0)' ||
+                         (bgColor.startsWith('rgba') && bgColor.includes(', 0)'));
+    
+    if (isTransparent) {
+      // Check for background-image or gradient
+      const bgImage = computedStyle.backgroundImage;
+      if (bgImage && bgImage !== 'none') {
+        console.log('[Navbar] Navbar has background image/gradient, using dark text');
+        bgColor = 'rgb(240, 240, 240)'; // Assume light background
+      } else {
+        // Transparent navbar - check body background
+        const bodyBg = window.getComputedStyle(document.body).backgroundColor;
+        console.log('[Navbar] Navbar transparent, using body background:', bodyBg);
+        bgColor = bodyBg;
+      }
+    }
+    
+    // Calculate luminance to determine if background is light or dark
+    const rgb = bgColor.match(/\d+/g);
+    if (rgb && rgb.length >= 3) {
+      const r = parseInt(rgb[0]);
+      const g = parseInt(rgb[1]);
+      const b = parseInt(rgb[2]);
+      const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+      
+      // Mobile button colors are set by Claude's AI-generated CSS (same as .nav-menu a)
+      // No dynamic color overrides needed - colors come from the generated navbar CSS
+      console.log('[Navbar] Mobile button colors preserved from Claude CSS (luminance:', luminance.toFixed(2) + ')');
+      
+      // FIX ICON SIZES - Ensure SVGs are properly sized and visible
+      // INJECT CRITICAL CSS TO OVERRIDE ANY CONFLICTING RULES
+      const criticalCSS = document.createElement('style');
+      criticalCSS.id = 'zappy-mobile-nav-fix';
+      const htmlLang = document.documentElement.lang || 'en';
+      const htmlDir = document.documentElement.dir || 'ltr';
+      // Check both dir attribute AND lang for RTL detection
+      // dir="rtl" is the most reliable indicator
+      const isRTL = htmlDir === 'rtl' || htmlLang === 'he' || htmlLang === 'ar';
+      
+      criticalCSS.textContent = `
+        /* Hide mobile buttons on desktop, show only on mobile */
+        @media (min-width: 769px) {
+          .mobile-toggle,
+          .phone-header-btn {
+            display: none !important;
+          }
+        }
+        
+        /* Show and position mobile buttons correctly on mobile */
+        @media (max-width: 768px) {
+          .mobile-toggle,
+          .phone-header-btn {
+            position: absolute !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            z-index: 1001 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 36px !important;
+            height: 36px !important;
+            border-radius: 50% !important;
+            border: none !important;
+            cursor: pointer !important;
+            padding: 6px !important;
+            background: none !important;
+            color: var(--nav-text, var(--text-light)) !important;
+          }
+          
+          /* LTR positioning (default): hamburger LEFT, phone RIGHT */
+          html:not([dir="rtl"]):not([lang="he"]):not([lang="ar"]) .mobile-toggle,
+          html[dir="ltr"] .mobile-toggle {
+            left: 12px !important;
+            right: auto !important;
+          }
+          html:not([dir="rtl"]):not([lang="he"]):not([lang="ar"]) .phone-header-btn,
+          html[dir="ltr"] .phone-header-btn {
+            right: 12px !important;
+            left: auto !important;
+          }
+          
+          /* RTL positioning: hamburger RIGHT, phone LEFT */
+          html[dir="rtl"] .mobile-toggle,
+          html[lang="he"] .mobile-toggle,
+          html[lang="ar"] .mobile-toggle {
+            right: 12px !important;
+            left: auto !important;
+          }
+          html[dir="rtl"] .phone-header-btn,
+          html[lang="he"] .phone-header-btn,
+          html[lang="ar"] .phone-header-btn {
+            left: 12px !important;
+            right: auto !important;
+          }
+          
+          /* CRITICAL: Ensure nav-container has min-height on mobile */
+          /* All children are positioned absolutely/fixed on mobile, so height:auto collapses to 0 */
+          .nav-container {
+            min-height: 70px !important;
+            position: relative !important;
+          }
+          
+          /* Ensure SVG icons are properly sized and inherit color */
+          .mobile-toggle svg,
+          .phone-header-btn svg {
+            width: 24px !important;
+            height: 24px !important;
+            /* Don't force display - let JavaScript control hamburger/close toggle */
+          }
+          
+          /* Reset nav-cta-container on mobile - remove desktop box-shadow/padding */
+          /* that creates a visible ghost box when CTA button is hidden */
+          .nav-cta-container {
+            box-shadow: none !important;
+            padding: 0 !important;
+          }
+          
+          /* Hide nav-cta-container entirely on mobile when there's no lang-switcher */
+          /* (only the CTA button is inside, and it's hidden on mobile) */
+          .nav-cta-container:not(:has(.lang-switcher)) {
+            display: none !important;
+          }
+          
+          /* CRITICAL: Prevent hero image fade gradient from bleeding over headline text */
+          /* The .image-fade-gradient has bottom: -30px (extends below parent) */
+          /* On mobile stacked layout, this overlaps the h1 text below the image */
+          .hero-image-column {
+            overflow: hidden !important;
+          }
+          .image-fade-gradient {
+            bottom: 0 !important;
+          }
+          
+          /* Hide desktop language switcher on mobile - hamburger menu handles it */
+          /* High specificity to override stored CSS */
+          .lang-switcher,
+          .nav-cta-container .lang-switcher,
+          .nav-container .lang-switcher,
+          .navbar .lang-switcher,
+          .navbar .nav-cta-container .lang-switcher {
+            display: none !important;
+          }
+        }
+      `;
+      
+      // Remove existing fix if present and inject new one
+      const existing = document.getElementById('zappy-mobile-nav-fix');
+      if (existing) existing.remove();
+      document.head.appendChild(criticalCSS);
+      
+      console.log('[Navbar] Critical CSS injected for mobile nav positioning');
+      
+      // ONLY apply inline positioning styles on mobile viewport
+      // On desktop, the CSS handles hiding these buttons with display: none
+      // Inline styles were breaking desktop layout by overriding CSS
+      const isMobileViewport = window.innerWidth <= 768;
+      
+      if (mobileToggle) {
+        // Icon sizing applies to all viewports for consistency
+        const hamburgerIcon = mobileToggle.querySelector('.hamburger-icon');
+        const closeIcon = mobileToggle.querySelector('.close-icon');
+        
+        if (hamburgerIcon) {
+          hamburgerIcon.style.setProperty('width', '24px', 'important');
+          hamburgerIcon.style.setProperty('height', '24px', 'important');
+          hamburgerIcon.style.setProperty('display', 'block', 'important'); // Show hamburger by default
+        }
+        if (closeIcon) {
+          closeIcon.style.setProperty('width', '24px', 'important');
+          closeIcon.style.setProperty('height', '24px', 'important');
+          closeIcon.style.setProperty('display', 'none', 'important'); // Hide close icon by default
+        }
+        
+        // ONLY set positioning inline styles on mobile
+        if (isMobileViewport) {
+          mobileToggle.style.setProperty('position', 'absolute', 'important');
+          mobileToggle.style.setProperty('top', '50%', 'important');
+          mobileToggle.style.setProperty('transform', 'translateY(-50%)', 'important');
+          mobileToggle.style.setProperty('z-index', '1001', 'important');
+          
+          // Clear any inline left/right so CSS can take over based on html[dir]
+          mobileToggle.style.removeProperty('left');
+          mobileToggle.style.removeProperty('right');
+          
+          console.log('[Navbar] Mobile toggle positioning applied (mobile viewport)');
+        } else {
+          // On desktop, clear any positioning styles to let CSS handle it
+          mobileToggle.style.removeProperty('position');
+          mobileToggle.style.removeProperty('top');
+          mobileToggle.style.removeProperty('transform');
+          mobileToggle.style.removeProperty('z-index');
+          mobileToggle.style.removeProperty('left');
+          mobileToggle.style.removeProperty('right');
+          console.log('[Navbar] Desktop viewport - cleared mobile toggle inline positioning');
+        }
+      }
+      
+      if (phoneBtn) {
+        // Icon sizing applies to all viewports
+        const phoneIcon = phoneBtn.querySelector('svg');
+        if (phoneIcon) {
+          phoneIcon.style.width = '24px';
+          phoneIcon.style.height = '24px';
+          phoneIcon.setAttribute('width', '24');
+          phoneIcon.setAttribute('height', '24');
+        }
+        
+        // ONLY set positioning inline styles on mobile
+        if (isMobileViewport) {
+          phoneBtn.style.setProperty('position', 'absolute', 'important');
+          phoneBtn.style.setProperty('top', '50%', 'important');
+          phoneBtn.style.setProperty('transform', 'translateY(-50%)', 'important');
+          phoneBtn.style.setProperty('z-index', '1001', 'important');
+          
+          // Clear any inline left/right so CSS can take over based on html[dir]
+          phoneBtn.style.removeProperty('left');
+          phoneBtn.style.removeProperty('right');
+          
+          console.log('[Navbar] Phone button positioning applied (mobile viewport)');
+        } else {
+          // On desktop, clear any positioning styles to let CSS handle it
+          phoneBtn.style.removeProperty('position');
+          phoneBtn.style.removeProperty('top');
+          phoneBtn.style.removeProperty('transform');
+          phoneBtn.style.removeProperty('z-index');
+          phoneBtn.style.removeProperty('left');
+          phoneBtn.style.removeProperty('right');
+          console.log('[Navbar] Desktop viewport - cleared phone button inline positioning');
+        }
+      }
+    } else {
+      console.log('[Navbar] Could not parse background color:', bgColor);
+    }
+    
+    // MOBILE MENU TOGGLE
+    // Re-query in case DOM changed (mobileToggle already declared at top of function)
+    mobileToggle = document.getElementById('mobileToggle') ||
+                   document.querySelector('.mobile-toggle') ||
+                   document.querySelector('.hamburger') ||
+                   document.querySelector('.hamburger-menu') ||
+                   document.querySelector('.menu-toggle') ||
+                   document.querySelector('.burger-menu') ||
+                   document.querySelector('[aria-label="Menu"]') ||
+                   document.querySelector('[aria-label="תפריט"]');
+    
+    // EXPANDED SEARCH: Find nav menu by ID or class
+    const navMenu = document.getElementById('navMenu') ||
+                  document.querySelector('.nav-menu') ||
+                  document.querySelector('.nav-links') ||
+                  document.querySelector('nav ul:not(.submenu)');
+    
+    if (!mobileToggle || !navMenu) {
+      console.log('[Navbar] Mobile toggle or menu not found:', { toggle: !!mobileToggle, menu: !!navMenu });
+      return;
+    }
+    
+    // Ensure navMenu has ID for CSS targeting
+    if (!navMenu.id) {
+      navMenu.id = 'navMenu';
+    }
+    
+    console.log('[Navbar] Initializing mobile menu...');
+    
+    // Remove any existing event listeners by cloning the button
+    const newToggle = mobileToggle.cloneNode(true);
+    mobileToggle.parentNode.replaceChild(newToggle, mobileToggle);
+    
+    // Toggle menu on button click - use newToggle now
+    newToggle.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const hamburgerIcon = this.querySelector('.hamburger-icon');
+      const closeIcon = this.querySelector('.close-icon');
+      const isActive = navMenu.classList.contains('active');
+      
+      if (isActive) {
+        // Close menu
+        navMenu.classList.remove('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'block', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'none', 'important');
+        document.body.style.overflow = '';
+        console.log('[Navbar] Menu closed');
+      } else {
+        // Open menu
+        navMenu.classList.add('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'none', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'block', 'important');
+        document.body.style.overflow = 'hidden';
+        console.log('[Navbar] Menu opened');
+      }
+    });
+    
+    // Close menu when clicking nav links (but NOT dropdown toggles)
+    const navLinks = navMenu.querySelectorAll('a');
+    navLinks.forEach(function(link) {
+      link.addEventListener('click', function() {
+        // Don't close if it's a dropdown child (unless it's a real navigation link)
+        if (this.getAttribute('href') === '#') return;
+        
+        const hamburgerIcon = newToggle.querySelector('.hamburger-icon');
+        const closeIcon = newToggle.querySelector('.close-icon');
+        
+        navMenu.classList.remove('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'block', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'none', 'important');
+        document.body.style.overflow = '';
+        console.log('[Navbar] Menu closed (link clicked)');
+      });
+    });
+    
+    // DROPDOWN MENU TOGGLE (for mobile and touch devices)
+    var dropdownToggles = navMenu.querySelectorAll('.dropdown-toggle');
+    dropdownToggles.forEach(function(toggle) {
+      toggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var parent = this.closest('.nav-dropdown');
+        if (!parent) return;
+        
+        // Close other open dropdowns at the same level
+        var siblings = parent.parentNode.querySelectorAll('.nav-dropdown.open');
+        siblings.forEach(function(sib) {
+          if (sib !== parent) sib.classList.remove('open');
+        });
+        
+        parent.classList.toggle('open');
+        console.log('[Navbar] Dropdown toggled:', parent.classList.contains('open') ? 'open' : 'closed');
+      });
+    });
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.nav-dropdown')) {
+        var openDropdowns = document.querySelectorAll('.nav-dropdown.open');
+        openDropdowns.forEach(function(dd) { dd.classList.remove('open'); });
+      }
+    });
+    
+    console.log('[Navbar] Dropdown handlers initialized for ' + dropdownToggles.length + ' dropdowns');
+    
+    // Phone button functionality (phoneBtn already declared at top of function)
+    if (phoneBtn) {
+      phoneBtn.addEventListener('click', function() {
+        // Get phone number from placeholder in page or use default
+        const phoneLinks = document.querySelectorAll('a[href^="tel:"]');
+        const phoneNumber = phoneLinks.length > 0 
+          ? phoneLinks[0].getAttribute('href').replace('tel:', '')
+          : '[business_phone]';
+        
+        window.location.href = 'tel:' + phoneNumber;
+        console.log('[Navbar] Phone button clicked');
+      });
+    }
+    
+    console.log('[Navbar] Mobile menu initialized successfully');
+    
+    // WhatsApp button visibility is now controlled via CSS (siteSettings).
+    // No JS-based desktop hiding — the button is visible on both mobile and desktop by default.
+  });
+})();
+
+</script>
+  
+  <main>
+    <section class="index-hero-section" data-layout-spec="דף הבית-hero" dir="rtl" data-hero-type="fullscreen-scrim">
+
+  <!-- Background Image -->
+  <div class="index-hero-bg">
+    <img data-hero-bg="true" data-placeholder="index-hero-image-1" data-context="Cinematic dark tech atmosphere: a sophisticated dashboard interface glowing with electric cobalt and lavender light trails on a carbon-black background. Multiple layered data panels, flowing connection lines, topographic grid overlays, and subtle glowing nodes suggest AI-powered system orchestration. A human hand or silhouette is visible in the background implying oversight and control. The mood is premium, cinematic, and deeply structured — not robotic or generic. Rich depth with soft lens flare from cobalt blue light sources." width="1440" height="900" src="/assets/site-index-hero-image-1.webp" alt="מערכת בינה מלאכותית ואוטומציה עסקית — ניהול ובקרה מלאים">
+  </div>
+
+  <!-- Gradient Scrim Overlay -->
+  <div class="index-hero-scrim" aria-hidden="true"></div>
+
+  <!-- Decorative Orb Left -->
+  <div class="index-hero-orb-left" aria-hidden="true"></div>
+
+  <!-- Decorative Particle Network SVG -->
+  <svg class="index-hero-particles" data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 700 600" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+    <g opacity="0.13" stroke="#A66CFF" stroke-width="0.8" fill="none">
+      <line x1="80" y1="120" x2="200" y2="80"></line>
+      <line x1="200" y1="80" x2="350" y2="160"></line>
+      <line x1="350" y1="160" x2="480" y2="90"></line>
+      <line x1="480" y1="90" x2="600" y2="180"></line>
+      <line x1="600" y1="180" x2="650" y2="300"></line>
+      <line x1="350" y1="160" x2="420" y2="280"></line>
+      <line x1="200" y1="80" x2="280" y2="220"></line>
+      <line x1="280" y1="220" x2="420" y2="280"></line>
+      <line x1="420" y1="280" x2="560" y2="360"></line>
+      <line x1="80" y1="120" x2="140" y2="260"></line>
+      <line x1="140" y1="260" x2="280" y2="220"></line>
+      <line x1="560" y1="360" x2="650" y2="420"></line>
+      <line x1="140" y1="260" x2="200" y2="380"></line>
+      <line x1="200" y1="380" x2="350" y2="400"></line>
+      <line x1="350" y1="400" x2="420" y2="280"></line>
+    </g>
+    <g fill="#5B5EF7">
+      <circle cx="80" cy="120" r="2.5" opacity="0.5"></circle>
+      <circle cx="200" cy="80" r="2" opacity="0.4"></circle>
+      <circle cx="350" cy="160" r="3" opacity="0.6"></circle>
+      <circle cx="480" cy="90" r="2" opacity="0.35"></circle>
+      <circle cx="600" cy="180" r="2.5" opacity="0.45"></circle>
+      <circle cx="650" cy="300" r="2" opacity="0.3"></circle>
+      <circle cx="280" cy="220" r="3" opacity="0.55"></circle>
+      <circle cx="420" cy="280" r="2.5" opacity="0.5"></circle>
+      <circle cx="140" cy="260" r="2" opacity="0.4"></circle>
+      <circle cx="560" cy="360" r="3" opacity="0.45"></circle>
+      <circle cx="200" cy="380" r="2" opacity="0.35"></circle>
+      <circle cx="350" cy="400" r="2.5" opacity="0.4"></circle>
+    </g>
+    <g fill="#A66CFF">
+      <circle cx="350" cy="160" r="5" opacity="0.7"></circle>
+      <circle cx="420" cy="280" r="4" opacity="0.6"></circle>
+      <circle cx="280" cy="220" r="4" opacity="0.55"></circle>
+    </g>
+  </svg>
+
+  <!-- Dot Grid Texture -->
+  <div class="index-hero-dot-grid" aria-hidden="true"></div>
+
+  <!-- Main Content Overlay -->
+  <div class="index-hero-container">
+    <div class="index-hero-content">
+
+      <!-- Pre-headline badge -->
+      <div class="index-hero-badge">
+        <span class="index-hero-badge-dot" aria-hidden="true"></span>
+        <span>Systems Builder · AI · Automation · UX</span>
+      </div>
+
+      <!-- H1 Headline -->
+      <h1 class="index-hero-h1">
+        הרעיון שלך —
+        <span class="index-hero-h1-gradient">מערכת עובדת מלאה</span>
+      </h1>
+
+      <!-- H3 Subtitle -->
+      <h3 class="index-hero-subtitle">
+        דריה קרייף בונה מערכות AI, אוטומציה, UX ולוגיקה עסקית מקצה לקצה —
+        ומעבירה בעלות מלאה ללקוח. ללא תלות, ללא קופסה שחורה.
+      </h3>
+
+      <!-- Trust Line -->
+      <p class="index-hero-trust">
+        <span class="index-hero-trust-icon" aria-hidden="true">✦</span>
+        שקיפות מלאה · תהליך ברור · הבעלות עוברת אליך בסיום
+      </p>
+
+      <!-- CTA Buttons -->
+      <div class="index-hero-ctas">
+        <a href="https://wa.me/972544489858" target="_blank" rel="noopener noreferrer" class="index-hero-btn-primary">
+          <svg data-element-type="icon" data-icon-type="svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"></path></svg>
+          דברי איתי בוואטסאפ
+        </a>
+        <a href="#portfolio" class="index-hero-btn-secondary">
+          <svg data-element-type="icon" data-icon-type="svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12h20M12 2l-10 10 10 10"></path></svg>
+          ראי פרויקטים
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Bottom Divider -->
+  <div class="index-hero-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,90 L0,42 Q120,28 240,38 T480,30 Q600,36 720,24 T960,32 Q1080,38 1200,26 T1440,36 L1440,90 Z" fill="#0A0A14"></path>
+    </svg>
+  </div>
+
+</section>
+
+<section class="index-comparison-section" data-layout-spec="דף הבית-comparison" dir="rtl">
+  <!-- Decorative background texture -->
+  <div class="index-comparison-section__bg-texture" aria-hidden="true"></div>
+  <!-- Decorative orb -->
+  <div class="index-comparison-section__orb index-comparison-section__orb--right" aria-hidden="true"></div>
+  <div class="index-comparison-section__orb index-comparison-section__orb--left" aria-hidden="true"></div>
+
+  <div class="index-comparison-section__container">
+    <!-- Header -->
+    <header class="index-comparison-section__header">
+      <span class="index-comparison-section__eyebrow">השוואה ישירה</span>
+      <h2 class="index-comparison-section__title">למה DAiM שונה מכל ספק אחר?</h2>
+      <p class="index-comparison-section__intro">רוב הספקים מוכרים לך ייעוץ, קוד, או אוטומציה בודדת. דריה בונה לך מערכת שלמה — ומעבירה לך את הבעלות המלאה עליה.</p>
+    </header>
+
+    <!-- Comparison Grid -->
+    <div class="index-comparison-section__grid">
+
+      <!-- Column: What most providers do -->
+      <div class="index-comparison-section__column index-comparison-section__column--negative">
+        <div class="index-comparison-section__column-header">
+          <div class="index-comparison-section__column-icon index-comparison-section__column-icon--negative">
+            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+          </div>
+          <h3 class="index-comparison-section__column-title">מה רוב הספקים עושים</h3>
+        </div>
+
+        <article class="index-comparison-section__tile index-comparison-section__tile--negative">
+          <div class="index-comparison-section__tile-marker index-comparison-section__tile-marker--negative">
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+          </div>
+          <div class="index-comparison-section__tile-content">
+            <h4 class="index-comparison-section__tile-title">ייעוץ ללא ביצוע</h4>
+            <p class="index-comparison-section__tile-text">מקבלים המלצות, מסמכי אסטרטגיה, ומצגות — אבל אף אחד לא יושב ובונה בפועל. הביצוע נשאר עליך.</p>
+          </div>
+        </article>
+
+        <article class="index-comparison-section__tile index-comparison-section__tile--negative">
+          <div class="index-comparison-section__tile-marker index-comparison-section__tile-marker--negative">
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+          </div>
+          <div class="index-comparison-section__tile-content">
+            <h4 class="index-comparison-section__tile-title">קוד ללא לוגיקה עסקית</h4>
+            <p class="index-comparison-section__tile-text">מפתחים כותבים קוד נקי — אבל לא מבינים את ה-workflow שלך. התוצאה: מערכת שעובדת טכנית אבל לא פותרת את הבעיה האמיתית.</p>
+          </div>
+        </article>
+
+        <article class="index-comparison-section__tile index-comparison-section__tile--negative">
+          <div class="index-comparison-section__tile-marker index-comparison-section__tile-marker--negative">
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+          </div>
+          <div class="index-comparison-section__tile-content">
+            <h4 class="index-comparison-section__tile-title">תלות קבועה בספק</h4>
+            <p class="index-comparison-section__tile-text">המערכת נשארת אצלם. כל שינוי קטן עולה כסף. אתה לא יכול להפעיל, לשנות, או להבין את מה שנבנה עבורך.</p>
+          </div>
+        </article>
+
+        <article class="index-comparison-section__tile index-comparison-section__tile--negative">
+          <div class="index-comparison-section__tile-marker index-comparison-section__tile-marker--negative">
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+          </div>
+          <div class="index-comparison-section__tile-content">
+            <h4 class="index-comparison-section__tile-title">מורכבות נסתרת</h4>
+            <p class="index-comparison-section__tile-text">הארכיטקטורה לא מוסברת, התהליכים לא מתועדים. אתה מקבל תוצר אטום שאי אפשר לתחזק בלעדיהם.</p>
+          </div>
+        </article>
+
+        <article class="index-comparison-section__tile index-comparison-section__tile--negative">
+          <div class="index-comparison-section__tile-marker index-comparison-section__tile-marker--negative">
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+          </div>
+          <div class="index-comparison-section__tile-content">
+            <h4 class="index-comparison-section__tile-title">אוטומציה חד-פעמית</h4>
+            <p class="index-comparison-section__tile-text">סקריפט שפותר בעיה אחת — ומתפרק כשהעסק גדל. אין בסיס, אין גמישות, אין יכולת הרחבה.</p>
+          </div>
+        </article>
+      </div>
+
+      <!-- Divider line -->
+      <div class="index-comparison-section__divider" aria-hidden="true">
+        <div class="index-comparison-section__divider-line"></div>
+        <div class="index-comparison-section__divider-badge">VS</div>
+        <div class="index-comparison-section__divider-line"></div>
+      </div>
+
+      <!-- Column: What Darya delivers -->
+      <div class="index-comparison-section__column index-comparison-section__column--positive">
+        <div class="index-comparison-section__column-header">
+          <div class="index-comparison-section__column-icon index-comparison-section__column-icon--positive">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+          </div>
+          <h3 class="index-comparison-section__column-title">מה דריה מספקת</h3>
+        </div>
+
+        <article class="index-comparison-section__tile index-comparison-section__tile--positive">
+          <div class="index-comparison-section__tile-marker index-comparison-section__tile-marker--positive">
+            <i class="fa-solid fa-check" aria-hidden="true"></i>
+          </div>
+          <div class="index-comparison-section__tile-content">
+            <h4 class="index-comparison-section__tile-title">בנייה מקצה לקצה</h4>
+            <p class="index-comparison-section__tile-text">לא ייעוץ — מסירה. דריה בונה את המערכת בפועל, מהרעיון הראשוני ועד למוצר עובד שמוכן לשימוש מיידי.</p>
+          </div>
+        </article>
+
+        <article class="index-comparison-section__tile index-comparison-section__tile--positive">
+          <div class="index-comparison-section__tile-marker index-comparison-section__tile-marker--positive">
+            <i class="fa-solid fa-check" aria-hidden="true"></i>
+          </div>
+          <div class="index-comparison-section__tile-content">
+            <h4 class="index-comparison-section__tile-title">חשיבה מערכתית משולבת</h4>
+            <p class="index-comparison-section__tile-text">כל פתרון מתוכנן סביב הלוגיקה העסקית שלך — AI, אוטומציה, UX ו-business flow משתלבים לכדי מערכת אחת קוהרנטית.</p>
+          </div>
+        </article>
+
+        <article class="index-comparison-section__tile index-comparison-section__tile--positive">
+          <div class="index-comparison-section__tile-marker index-comparison-section__tile-marker--positive">
+            <i class="fa-solid fa-check" aria-hidden="true"></i>
+          </div>
+          <div class="index-comparison-section__tile-content">
+            <h4 class="index-comparison-section__tile-title">בעלות מלאה ללקוח</h4>
+            <p class="index-comparison-section__tile-text">המערכת שלך — לגמרי. קוד, תיעוד, גישה, והדרכה. אתה יכול להפעיל, לשנות ולהרחיב בעצמך ביום שאחרי.</p>
+          </div>
+        </article>
+
+        <article class="index-comparison-section__tile index-comparison-section__tile--positive">
+          <div class="index-comparison-section__tile-marker index-comparison-section__tile-marker--positive">
+            <i class="fa-solid fa-check" aria-hidden="true"></i>
+          </div>
+          <div class="index-comparison-section__tile-content">
+            <h4 class="index-comparison-section__tile-title">ארכיטקטורה שקופה</h4>
+            <p class="index-comparison-section__tile-text">כל החלטת עיצוב מוסברת. תקבל תיעוד מלא, מפת מערכת ברורה, ותדע בדיוק איך כל חלק עובד ולמה.</p>
+          </div>
+        </article>
+
+        <article class="index-comparison-section__tile index-comparison-section__tile--positive">
+          <div class="index-comparison-section__tile-marker index-comparison-section__tile-marker--positive">
+            <i class="fa-solid fa-check" aria-hidden="true"></i>
+          </div>
+          <div class="index-comparison-section__tile-content">
+            <h4 class="index-comparison-section__tile-title">בסיס סקיילבילי לצמיחה</h4>
+            <p class="index-comparison-section__tile-text">המערכת בנויה לגדול איתך. אוטומציות עסקיות מודולריות שניתן להרחיב, לשכפל ולהתאים כשהעסק מתפתח.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom diagonal glow divider -->
+  <div class="index-comparison-section__divider-wrapper" aria-hidden="true">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="divGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#F4F1EC" stop-opacity="1"></stop>
+          <stop offset="100%" stop-color="#F4F1EC" stop-opacity="1"></stop>
+        </linearGradient>
+        <linearGradient id="glowSeam" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#5B5EF7" stop-opacity="0"></stop>
+          <stop offset="35%" stop-color="#A66CFF" stop-opacity="0.55"></stop>
+          <stop offset="65%" stop-color="#5B5EF7" stop-opacity="0.4"></stop>
+          <stop offset="100%" stop-color="#F08A5D" stop-opacity="0"></stop>
+        </linearGradient>
+      </defs>
+      <!-- Glow seam line -->
+      <line x1="0" y1="55" x2="1440" y2="20" stroke="url(#glowSeam)" stroke-width="2"></line>
+      <!-- Fill bottom toward next section -->
+      <path d="M0,90 L0,55 L1440,20 L1440,90 Z" fill="var(--bg-light)"></path>
+    </svg>
+  </div>
+</section>
+
+<section class="index-portfolio-section" data-layout-spec="דף הבית-portfolio" dir="rtl">
+  <!-- Decorative background orb -->
+  <div class="portfolio-bg-orb" aria-hidden="true"></div>
+  <div class="portfolio-bg-dots" aria-hidden="true"></div>
+
+  <div class="portfolio-container">
+    <!-- Top Intro Row -->
+    <div class="portfolio-intro-row">
+      <div class="portfolio-intro-start">
+        <span class="portfolio-label">עבודות נבחרות</span>
+        <h2 class="portfolio-heading">מערכות שנבנו.<br>ועובדות.</h2>
+        <p class="portfolio-intro-text">כל פרויקט שמופיע כאן הועבר ללקוח כמערכת עובדת מלאה — עם קוד, תיעוד, הדרכה ובעלות מלאה. לא ייעוץ, לא אבטיפוס. מוצר שרץ בפועל.</p>
+      </div>
+      <div class="portfolio-intro-end">
+        <div class="portfolio-proof-card">
+          <div class="proof-stat">
+            <span class="proof-number">100%</span>
+            <span class="proof-desc">בעלות מלאה מועברת ללקוח</span>
+          </div>
+          <div class="proof-divider" aria-hidden="true"></div>
+          <div class="proof-stat">
+            <span class="proof-number">9</span>
+            <span class="proof-desc">רמות הרשאה במערכת LMS</span>
+          </div>
+          <div class="proof-divider" aria-hidden="true"></div>
+          <div class="proof-stat">
+            <span class="proof-number">End-to-End</span>
+            <span class="proof-desc">מהגדרת הצורך ועד להשקה</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2x2 Case Study Grid -->
+    <div class="portfolio-grid">
+
+      <!-- Card 1: LMS Platform -->
+      <article class="portfolio-card portfolio-card--featured">
+        <div class="card-mockup-area">
+          <div class="card-mockup-browser">
+            <div class="browser-bar">
+              <span class="browser-dot"></span>
+              <span class="browser-dot"></span>
+              <span class="browser-dot"></span>
+              <div class="browser-url">campus-lms.system</div>
+            </div>
+            <div class="browser-screen">
+              <img data-placeholder="index-portfolio-image-1" data-context="A polished LMS (Learning Management System) dashboard interface screenshot showing a Hebrew university campus platform with a sidebar navigation, course grid, student progress charts, and permission level indicators. Dark navy and purple color scheme with clean typography. Professional enterprise software UI." width="560" height="280" src="/assets/site-index-portfolio-image-1.webp" alt="פלטפורמת LMS לקמפוס — מסך ניהול קורסים">
+            </div>
+          </div>
+          <div class="card-badge">LMS Platform</div>
+        </div>
+        <div class="card-body">
+          <div class="card-meta">
+            <span class="card-category">חינוך &amp; ניהול ידע</span>
+          </div>
+          <h3 class="card-title">פלטפורמת LMS לקמפוס</h3>
+          <p class="card-challenge">האתגר: קמפוס עם מאות משתמשים, מרצים, סטודנטים ומנהלים — ללא מערכת ניהול אחודה שיכולה להכיל את המורכבות הארגונית.</p>
+          <ul class="card-outcomes">
+            <li>
+              <span class="outcome-icon" aria-hidden="true">
+                <svg data-element-type="icon" data-icon-type="svg" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8L6.5 11.5L13 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              </span>
+              <span>9 רמות הרשאה שונות — מסטודנט ועד מנהל מערכת</span>
+            </li>
+            <li>
+              <span class="outcome-icon" aria-hidden="true">
+                <svg data-element-type="icon" data-icon-type="svg" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8L6.5 11.5L13 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              </span>
+              <span>שכבת אוטומציה מלאה עם Google Apps Script</span>
+            </li>
+            <li>
+              <span class="outcome-icon" aria-hidden="true">
+                <svg data-element-type="icon" data-icon-type="svg" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8L6.5 11.5L13 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              </span>
+              <span>לוגיקה עסקית מותאמת — בנויה מאפס, מועברת בבעלות מלאה</span>
+            </li>
+          </ul>
+          <div class="card-capabilities">
+            <span class="cap-tag">Google Apps Script</span>
+            <span class="cap-tag">UX/UI Design</span>
+            <span class="cap-tag">Business Logic</span>
+            <span class="cap-tag">Role Management</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 2: Nanny Now AI Marketplace -->
+      <article class="portfolio-card portfolio-card--featured">
+        <div class="card-mockup-area">
+          <div class="card-mockup-browser">
+            <div class="browser-bar">
+              <span class="browser-dot"></span>
+              <span class="browser-dot"></span>
+              <span class="browser-dot"></span>
+              <div class="browser-url">nanny-now.app</div>
+            </div>
+            <div class="browser-screen">
+              <img data-placeholder="index-portfolio-image-2" data-context="A modern AI-powered nanny marketplace app interface showing a clean mobile and web UI with nanny profile cards, AI matching indicators, booking flow screens, and smart recommendation panels. Warm tones with purple and coral accents. Professional product design with Hebrew text elements." width="560" height="280" src="/assets/site-index-portfolio-image-2.webp" alt="Nanny Now — מרקטפלייס AI לבייביסיטרים">
+            </div>
+          </div>
+          <div class="card-badge card-badge--accent">AI Marketplace</div>
+        </div>
+        <div class="card-body">
+          <div class="card-meta">
+            <span class="card-category">AI &amp; מוצר דיגיטלי</span>
+          </div>
+          <h3 class="card-title">Nanny Now — מרקטפלייס AI</h3>
+          <p class="card-challenge">האתגר: להפוך רעיון למוצר מלא — כולל הגדרת מוצר, עיצוב UX/UI, ופיתוח עם סוכני AI שמחברים בין הורים לבייביסיטרים בזמן אמת.</p>
+          <ul class="card-outcomes">
+            <li>
+              <span class="outcome-icon" aria-hidden="true">
+                <svg data-element-type="icon" data-icon-type="svg" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8L6.5 11.5L13 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              </span>
+              <span>הגדרת מוצר מלאה — מ-0 לפלטפורמה עובדת</span>
+            </li>
+            <li>
+              <span class="outcome-icon" aria-hidden="true">
+                <svg data-element-type="icon" data-icon-type="svg" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8L6.5 11.5L13 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              </span>
+              <span>סוכני AI לשידוך חכם ואוטומציה של תהליכי ההזמנה</span>
+            </li>
+            <li>
+              <span class="outcome-icon" aria-hidden="true">
+                <svg data-element-type="icon" data-icon-type="svg" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8L6.5 11.5L13 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              </span>
+              <span>UX/UI מלא — מחקר, עיצוב, ופיתוח בתהליך אחד</span>
+            </li>
+          </ul>
+          <div class="card-capabilities">
+            <span class="cap-tag">AI Agents</span>
+            <span class="cap-tag">Product Definition</span>
+            <span class="cap-tag">UX/UI</span>
+            <span class="cap-tag">Full-Stack Dev</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 3: Business Automation Architecture -->
+      <article class="portfolio-card">
+        <div class="card-mockup-area card-mockup-area--compact">
+          <div class="card-mockup-diagram">
+            <img data-placeholder="index-portfolio-image-3" data-context="A clean visual diagram of a business automation architecture showing connected workflow nodes, trigger events, API integrations, and automated process flows. Purple and cobalt color palette on a dark background. Looks like a professional Zapier or Make.com automation blueprint with Hebrew labels." width="560" height="220" src="/assets/site-index-portfolio-image-3.webp" alt="ארכיטקטורת אוטומציה עסקית — תרשים תהליכים">
+          </div>
+          <div class="card-badge card-badge--secondary">Automation</div>
+        </div>
+        <div class="card-body">
+          <div class="card-meta">
+            <span class="card-category">אוטומציות עסקיות</span>
+          </div>
+          <h3 class="card-title">ארכיטקטורת אוטומציה עסקית</h3>
+          <p class="card-challenge">האתגר: תהליכים ידניים שחוזרים על עצמם מדי יום — ניהול לידים, תזכורות, דוחות — שגוזלים שעות יקרות מהצוות.</p>
+          <ul class="card-outcomes">
+            <li>
+              <span class="outcome-icon" aria-hidden="true">
+                <svg data-element-type="icon" data-icon-type="svg" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8L6.5 11.5L13 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              </span>
+              <span>מיפוי מלא של תהליכים וזיהוי נקודות אוטומציה</span>
+            </li>
+            <li>
+              <span class="outcome-icon" aria-hidden="true">
+                <svg data-element-type="icon" data-icon-type="svg" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8L6.5 11.5L13 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              </span>
+              <span>אינטגרציה עם כלים קיימים — CRM, Sheets, Slack, Email</span>
+            </li>
+            <li>
+              <span class="outcome-icon" aria-hidden="true">
+                <svg data-element-type="icon" data-icon-type="svg" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8L6.5 11.5L13 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              </span>
+              <span>תיעוד מלא ומסירה — הצוות מפעיל הכל בעצמו</span>
+            </li>
+          </ul>
+          <div class="card-capabilities">
+            <span class="cap-tag">Make / Zapier</span>
+            <span class="cap-tag">API Integrations</span>
+            <span class="cap-tag">Process Design</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 4: Internal Operations System -->
+      <article class="portfolio-card">
+        <div class="card-mockup-area card-mockup-area--compact">
+          <div class="card-mockup-diagram">
+            <img data-placeholder="index-portfolio-image-4" data-context="A polished internal operations dashboard for a business showing task management, team workflows, KPI tracking panels, and AI-powered reporting widgets. Clean enterprise UI with cobalt blue and lavender accent colors. Hebrew interface with modern card-based layout." width="560" height="220" src="/assets/site-index-portfolio-image-4.webp" alt="מערכת ניהול פנים-ארגוני — דשבורד תפעולי">
+          </div>
+          <div class="card-badge card-badge--secondary">Ops System</div>
+        </div>
+        <div class="card-body">
+          <div class="card-meta">
+            <span class="card-category">מערכות תפעוליות</span>
+          </div>
+          <h3 class="card-title">מערכת ניהול פנים-ארגוני</h3>
+          <p class="card-challenge">האתגר: עסק שגדל מהר, עם מידע מפוזר בין גיליונות, וואטסאפ ואימיילים — ללא מקור אמת אחד לניהול.</p>
+          <ul class="card-outcomes">
+            <li>
+              <span class="outcome-icon" aria-hidden="true">
+                <svg data-element-type="icon" data-icon-type="svg" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8L6.5 11.5L13 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              </span>
+              <span>דשבורד תפעולי מרכזי עם AI Workflow Design</span>
+            </li>
+            <li>
+              <span class="outcome-icon" aria-hidden="true">
+                <svg data-element-type="icon" data-icon-type="svg" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8L6.5 11.5L13 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              </span>
+              <span>דוחות אוטומטיים ומדדי ביצוע בזמן אמת</span>
+            </li>
+            <li>
+              <span class="outcome-icon" aria-hidden="true">
+                <svg data-element-type="icon" data-icon-type="svg" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8L6.5 11.5L13 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              </span>
+              <span>הטמעה מלאה עם הדרכת צוות — מהיום הראשון</span>
+            </li>
+          </ul>
+          <div class="card-capabilities">
+            <span class="cap-tag">AI Workflow Design</span>
+            <span class="cap-tag">Dashboards</span>
+            <span class="cap-tag">Data Architecture</span>
+          </div>
+        </div>
+      </article>
+
+    </div>
+    <!-- End Grid -->
+
+    <!-- Bottom CTA -->
+    <div class="portfolio-cta-row">
+      <p class="portfolio-cta-text">רוצה לדעת איך זה נראה עבור העסק שלך?</p>
+      <a href="#contact" class="portfolio-cta-btn">בואו נדבר על הפרויקט שלכם</a>
+    </div>
+  </div>
+
+  <!-- Bottom Torn-Paper Divider to dark section -->
+  <div class="portfolio-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="dividerGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#0A0A0A"></stop>
+          <stop offset="40%" stop-color="#12101a"></stop>
+          <stop offset="100%" stop-color="#0A0A0A"></stop>
+        </linearGradient>
+      </defs>
+      <path d="M0,90 L0,42 Q60,35 120,44 T240,38 Q300,44 360,36 T480,42 Q540,36 600,44 T720,38 Q780,44 840,36 T960,42 Q1020,36 1080,44 T1200,38 Q1260,44 1320,36 T1440,42 L1440,90 Z" fill="#0A0A14"></path>
+    </svg>
+  </div>
+</section>
+
+<section class="index-process-section" data-layout-spec="דף הבית-process" dir="rtl">
+  <!-- Decorative background orb -->
+  <div class="process-orb process-orb-right" aria-hidden="true"></div>
+  <div class="process-orb process-orb-left" aria-hidden="true"></div>
+  <!-- Dot grid texture -->
+  <div class="process-dot-grid" aria-hidden="true"></div>
+
+  <div class="process-container">
+    <!-- Section Header -->
+    <div class="process-header">
+      <span class="process-label">תהליך העבודה</span>
+      <h2 class="process-title">מהרעיון למערכת חיה —<br>ארבעה שלבים. בעלות מלאה.</h2>
+      <p class="process-subtitle">תהליך ישיר, שקוף, ועסקי-ראשון. אין תלות בספקים, אין קוד נעול, אין הפתעות.</p>
+    </div>
+
+    <!-- Timeline track -->
+    <div class="process-timeline">
+      <!-- Connecting line -->
+      <div class="process-connector" aria-hidden="true">
+        <div class="process-connector-line"></div>
+        <div class="process-pulse process-pulse-1" aria-hidden="true"></div>
+        <div class="process-pulse process-pulse-2" aria-hidden="true"></div>
+        <div class="process-pulse process-pulse-3" aria-hidden="true"></div>
+      </div>
+
+      <!-- Step 1: Discovery -->
+      <article class="process-step process-step--1">
+        <div class="process-step-number" aria-hidden="true">01</div>
+        <div class="process-step-icon" aria-hidden="true">
+          <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="7" stroke="currentColor" stroke-width="2"></circle>
+            <line x1="17.5" y1="17.5" x2="24" y2="24" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+            <line x1="9" y1="12" x2="15" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+            <line x1="12" y1="9" x2="12" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+          </svg>
+        </div>
+        <div class="process-step-content">
+          <h3 class="process-step-title">גילוי ומיפוי</h3>
+          <p class="process-step-promise">מבינים את העסק שלך לעומק — לפני שכותבים שורת קוד אחת.</p>
+          <p class="process-step-body">אנחנו מתחילים בשיחת עומק שבה ממפים את המטרות העסקיות, צווארי הבקבוק, המשתמשים, ולוגיקת המערכת הנדרשת. התוצאה: תכנית מערכת מפורטת שאתה מאשר לפני שמתחילים לבנות.</p>
+        </div>
+      </article>
+
+      <!-- Step 2: Build -->
+      <article class="process-step process-step--2">
+        <div class="process-step-number" aria-hidden="true">02</div>
+        <div class="process-step-icon" aria-hidden="true">
+          <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="5" width="22" height="15" rx="2" stroke="currentColor" stroke-width="2"></rect>
+            <path d="M8 23h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+            <path d="M14 20v3" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+            <path d="M9 12l3 3 7-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </div>
+        <div class="process-step-content">
+          <h3 class="process-step-title">עיצוב ובנייה</h3>
+          <p class="process-step-promise">מערכת שלמה — UX/UI, אוטומציות, AI, הכול ביחד.</p>
+          <p class="process-step-body">בונים את הפתרון מקצה לקצה: עיצוב ממשק משתמש, תהליכי אוטומציה עסקית, שילוב מודלי AI ו-prompt engineering, ולוגיקה עסקית מותאמת. כל שלב בנייה מדווח בשקיפות מלאה.</p>
+        </div>
+      </article>
+
+      <!-- Step 3: Handoff -->
+      <article class="process-step process-step--3">
+        <div class="process-step-number" aria-hidden="true">03</div>
+        <div class="process-step-icon" aria-hidden="true">
+          <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 14h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+            <path d="M15 8l8 6-8 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            <rect x="3" y="6" width="8" height="16" rx="2" stroke="currentColor" stroke-width="2"></rect>
+          </svg>
+        </div>
+        <div class="process-step-content">
+          <h3 class="process-step-title">מסירה ובעלות</h3>
+          <p class="process-step-promise">המערכת שלך. הקוד שלך. התיעוד שלך. הכול.</p>
+          <p class="process-step-body">מסירה מלאה כוללת: העברת בעלות על כל הקוד, הגדרת הרשאות ורמות גישה, תיעוד מפורט לכל תהליך, והדרכה מעשית. אתה לא תלוי בי — ואתה יכול להמשיך עצמאית מהיום הראשון.</p>
+        </div>
+      </article>
+
+      <!-- Step 4: Scale -->
+      <article class="process-step process-step--4">
+        <div class="process-step-number" aria-hidden="true">04</div>
+        <div class="process-step-icon" aria-hidden="true">
+          <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <polyline points="4,20 10,13 15,17 24,7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+            <path d="M18 7h6v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </div>
+        <div class="process-step-content">
+          <h3 class="process-step-title">צמיחה והרחבה</h3>
+          <p class="process-step-promise">המערכת גדלה איתך — ללא תלות חיצונית.</p>
+          <p class="process-step-body">לאחר ההשקה, המערכת מוכנה לאופטימיזציה ולהרחבה עצמאית. אם תרצה ליווי נוסף — זמין. אם לא — המערכת עומדת על רגליה. אין subscription כפוי, אין נעילת ספק, רק עסק שעובד חכם יותר.</p>
+        </div>
+      </article>
+    </div>
+
+    <!-- Bottom note -->
+    <div class="process-note">
+      <span class="process-note-icon" aria-hidden="true">✦</span>
+      <p class="process-note-text">התהליך ישיר, שקוף, ועסקי-ראשון — כי המטרה שלי היא שהעסק שלך יעבוד, לא שתהיה תלוי בי.</p>
+    </div>
+  </div>
+
+  <!-- Bottom gradient curtain divider -->
+  <div class="process-divider-wrapper" aria-hidden="true">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="processGradFill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#F4F1EC" stop-opacity="0"></stop>
+          <stop offset="100%" stop-color="#F4F1EC" stop-opacity="1"></stop>
+        </linearGradient>
+      </defs>
+      <rect width="1200" height="80" fill="url(#processGradFill)"></rect>
+    </svg>
+  </div>
+</section>
+
+<section class="index-cta-section" data-layout-spec="דף הבית-cta" dir="rtl">
+  <!-- Aurora halo decoration -->
+  <div class="index-cta-aurora" aria-hidden="true"></div>
+
+  <div class="index-cta-container">
+    <div class="index-cta-island">
+      <!-- Main content -->
+      <div class="index-cta-content">
+        <span class="index-cta-eyebrow">בעלות מלאה. שקיפות מוחלטת.</span>
+        <h2 class="index-cta-heading">המערכת שלך — לא שלי</h2>
+        <p class="index-cta-body">בסוף כל פרויקט, אתה מקבל את הכל: קוד, תיעוד, לוגיקה עסקית, והסבר מלא. אתה לא תלוי בי כדי להמשיך לצמוח. אם מחר אני נעלמת — המערכת שלך ממשיכה לרוץ, ואתה יודע בדיוק איך היא עובדת.</p>
+
+        <!-- CTA row -->
+        <div class="index-cta-actions">
+          <a href="https://wa.me/972544489858" target="_blank" rel="noopener noreferrer" class="index-cta-btn-primary">
+            <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"></path>
+            </svg>
+            שלחי לי הודעה בוואטסאפ
+          </a>
+          <a href="/contact" class="index-cta-btn-secondary">ספרי לי על הרעיון שלך</a>
+        </div>
+      </div>
+
+      <!-- Assurance chips -->
+      <div class="index-cta-chips">
+        <div class="index-cta-chip">
+          <span class="index-cta-chip-icon" aria-hidden="true">
+            <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+          </span>
+          <span class="index-cta-chip-text">בעלות מלאה עליך</span>
+        </div>
+        <div class="index-cta-chip">
+          <span class="index-cta-chip-icon" aria-hidden="true">
+            <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+          </span>
+          <span class="index-cta-chip-text">בנייה שקופה לחלוטין</span>
+        </div>
+        <div class="index-cta-chip">
+          <span class="index-cta-chip-icon" aria-hidden="true">
+            <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+          </span>
+          <span class="index-cta-chip-text">תקשורת ישירה ופשוטה</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+  </main>
+  
+  <footer class="site-footer" dir="rtl">
+  <div class="footer-glow-top"></div>
+  <div class="footer-inner">
+    <div class="footer-grid">
+
+      <!-- Column 1: Company Info -->
+      <div class="footer-col footer-col--brand">
+        <div class="footer-logo-wrap">
+          <img src="/assets/daim-technology-logo.webp" alt="DAiM Technology" class="logo">
+        </div>
+        <p class="footer-tagline">מערכות בינה מלאכותית ואוטומציה עסקית — מהמחשבה לביצוע, עם בעלות מלאה.</p>
+        <div class="footer-social">
+          <a href="[facebook_handle]" aria-label="Facebook" class="social-link"><i class="fab fa-facebook-f"></i></a>
+          <a href="[instagram_handle]" aria-label="Instagram" class="social-link"><i class="fab fa-instagram"></i></a>
+          <a href="[whatsapp_handle]" aria-label="WhatsApp" class="social-link"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+
+      <!-- Column 2: Quick Links -->
+      <div class="footer-col">
+        <h3 class="footer-heading"><span class="heading-accent"></span>ניווט מהיר</h3>
+        <ul class="footer-nav">
+          <li><a href="/">דף הבית</a></li>
+          <li><a href="/how-it-works">איך זה עובד</a></li>
+          <li><a href="/what-you-get">מה תקבל</a></li>
+          <li><a href="/pricing">מחירים</a></li>
+          <li><a href="/contact">צור קשר</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Contact -->
+      <div class="footer-col">
+        <h3 class="footer-heading"><span class="heading-accent"></span>צור קשר</h3>
+        <ul class="footer-contact">
+          <li>
+            <span class="contact-icon"><i class="fas fa-envelope"></i></span>
+            <span class="contact-text"><a href="mailto:[business_email]">[business_email]</a></span>
+          </li>
+          <li>
+            <span class="contact-icon"><i class="fas fa-phone"></i></span>
+            <span class="contact-text"><a href="tel:[business_phone]">[business_phone]</a></span>
+          </li>
+          <li><a href="/"><span class="contact-icon"><i class="fas fa-map-marker-alt"></i></span>
+            <span class="contact-text">[business_address]</span></a></li>
+        </ul>
+      </div>
+
+      <!-- Column 4: CTA / Badge -->
+      <div class="footer-col footer-col--cta">
+        <h3 class="footer-heading"><span class="heading-accent"></span>מוכן להתחיל?</h3>
+        <p class="footer-cta-text">נבנה יחד את המערכת שתשחרר אותך לצמוח.</p>
+        <a href="/contact" class="footer-cta-btn">קבע שיחת ייעוץ</a>
+        <div class="footer-badge">
+          <span class="badge-dot"></span>
+          <span class="badge-label">מערכות AI פעילות 24/7</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="footer-bottom">
+    <div class="footer-bottom-inner">
+      <p class="footer-copyright">© 2026 DAiM Technology. כל הזכויות שמורות.</p>
+      <div class="footer-legal">
+        <a href="/privacy">מדיניות פרטיות</a>
+        <span class="legal-sep"></span>
+        <a href="/terms">תנאי שימוש</a>
+        <span class="legal-sep"></span>
+        <a href="/accessibility">נגישות</a>
+        <span class="legal-sep"></span>
+        <a href="https://zappy5.com" target="_blank" class="zappy-attribution">נוצר באמצעות Zappy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+  
+  <a href="https://wa.me/[whatsapp_handle]" class="whatsapp-float" aria-label="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+  
+  <div data-integration="accessibility:toolbar"></div>
+
+    <script src="/script.js"></script>
+
+    <script id="zappy-mobile-submenu-script">
+    (function() {
+      function initMobileSubmenuToggles() {
+        if (window.innerWidth > 768) {
+          document.querySelectorAll('.mobile-submenu-toggle').forEach(function(btn) { btn.remove(); });
+          document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) { menu.classList.remove('mobile-expanded'); });
+          return;
+        }
+        var items = document.querySelectorAll('.nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu)');
+        items.forEach(function(li) {
+          if (li.querySelector('.mobile-submenu-toggle')) return;
+          var submenu = li.querySelector('.sub-menu');
+          var parentLink = li.querySelector(':scope > a');
+          if (!submenu || !parentLink) return;
+          var toggleBtn = document.createElement('button');
+          toggleBtn.className = 'mobile-submenu-toggle';
+          toggleBtn.setAttribute('aria-label', 'Toggle submenu');
+          toggleBtn.setAttribute('type', 'button');
+          parentLink.insertAdjacentElement('afterend', toggleBtn);
+          toggleBtn.addEventListener('click', function(e) {
+            e.preventDefault(); e.stopPropagation();
+            document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) {
+              if (menu !== submenu) { menu.classList.remove('mobile-expanded'); var t = menu.parentElement.querySelector('.mobile-submenu-toggle'); if(t) t.classList.remove('expanded'); }
+            });
+            submenu.classList.toggle('mobile-expanded');
+            toggleBtn.classList.toggle('expanded');
+          });
+        });
+      }
+      if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initMobileSubmenuToggles); }
+      else { initMobileSubmenuToggles(); }
+      var resizeTimer; window.addEventListener('resize', function() { clearTimeout(resizeTimer); resizeTimer = setTimeout(initMobileSubmenuToggles, 250); });
+      // Re-initialize when mobile menu becomes visible (MutationObserver)
+      var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'attributes') {
+            var target = mutation.target;
+            if (target.classList && (target.classList.contains('active') || target.classList.contains('open'))) {
+              setTimeout(initMobileSubmenuToggles, 100);
+            }
+          }
+        });
+      });
+      setTimeout(function() {
+        document.querySelectorAll('.mobile-menu, .nav-menu, #navMenu, nav').forEach(function(menu) {
+          observer.observe(menu, { attributes: true, attributeFilter: ['class', 'style'] });
+        });
+      }, 500);
+    })();
+    </script>
+
+    <script id="zappy-navbar-scroll-effect">
+    (function(){
+      var nb=document.querySelector('nav.navbar,.navbar:not(.zappy-catalog-menu)');
+      var cm=document.querySelector('.zappy-catalog-menu,#zappy-catalog-menu');
+      if(!nb)return;
+      var fb='rgba(244,241,236,0.85)';
+      var th=60;
+      var rs=getComputedStyle(document.documentElement);
+      var td=rs.getPropertyValue('--text-dark').trim()||'#1a1a1a';
+      var tl=rs.getPropertyValue('--text-light').trim()||'#ffffff';
+      var st=true?td:tl;
+      nb.style.transition='background 0.3s ease,backdrop-filter 0.3s ease,-webkit-backdrop-filter 0.3s ease,box-shadow 0.3s ease';
+      if(cm)cm.style.transition='background 0.3s ease,backdrop-filter 0.3s ease,-webkit-backdrop-filter 0.3s ease';
+      var neSel='a,.navbar-brand,.navbar-brand a,.dropdown-toggle,.mobile-toggle,.phone-header-btn,.mobile-hamburger-btn,.mobile-close-btn,.mobile-submenu-toggle,.nav-link';
+      var skipCls=['cart-link','login-link','nav-search-toggle','search-toggle'];
+      function sTC(c,clr){var els=c.querySelectorAll(neSel);for(var i=0;i<els.length;i++){var sk=false;if(els[i].closest('.sub-menu')||els[i].closest('.dropdown-menu')){sk=true;}for(var j=0;j<skipCls.length;j++){if(els[i].classList.contains(skipCls[j])){sk=true;break;}}if(!sk)els[i].style.setProperty('color',clr,'important');}}
+      function cTC(c){var els=c.querySelectorAll(neSel);for(var i=0;i<els.length;i++){if(els[i].closest('.sub-menu')||els[i].closest('.dropdown-menu'))continue;els[i].style.removeProperty('color');}}
+      function applyScrolled(){
+        nb.classList.add('scrolled');
+        if(window.innerWidth>768){
+          nb.style.setProperty('--frosted-text',st);
+          nb.style.setProperty('background-image','none','important');
+          nb.style.setProperty('background-color',fb,'important');
+          nb.style.backdropFilter='blur(12px)';nb.style.webkitBackdropFilter='blur(12px)';nb.style.boxShadow='0 2px 16px rgba(0,0,0,0.12)';
+          sTC(nb,st);
+        }
+        if(cm){cm.classList.add('scrolled');if(window.innerWidth>768){cm.style.setProperty('background',fb,'important');cm.style.setProperty('backdrop-filter','blur(12px)','important');cm.style.setProperty('-webkit-backdrop-filter','blur(12px)','important');sTC(cm,st);}}
+      }
+      function onS(){
+        if(window._zappyNavNoDarkHero) return;
+        if(window.innerWidth<=768){nb.classList.remove('scrolled');cTC(nb);if(cm){cm.classList.remove('scrolled');cTC(cm);}return;}
+        var y=window.scrollY||window.pageYOffset;
+        if(y>th){
+          nb.classList.add('scrolled');nb.style.setProperty('background-color',fb,'important');nb.style.setProperty('background-image','none','important');
+          nb.style.setProperty('--frosted-text',st);nb.style.backdropFilter='blur(12px)';nb.style.webkitBackdropFilter='blur(12px)';nb.style.boxShadow='0 2px 16px rgba(0,0,0,0.12)';
+          sTC(nb,st);
+          if(cm){cm.classList.add('scrolled');cm.style.setProperty('background',fb,'important');cm.style.setProperty('backdrop-filter','blur(12px)','important');cm.style.setProperty('-webkit-backdrop-filter','blur(12px)','important');sTC(cm,st);}
+        }else{
+          nb.classList.remove('scrolled');nb.style.setProperty('background-color','transparent','important');nb.style.removeProperty('background-image');
+          nb.style.removeProperty('--frosted-text');nb.style.backdropFilter='none';nb.style.webkitBackdropFilter='none';nb.style.boxShadow='none';
+          cTC(nb);
+          if(cm){cm.classList.remove('scrolled');cm.style.setProperty('background','transparent','important');cm.style.setProperty('backdrop-filter','none','important');cm.style.setProperty('-webkit-backdrop-filter','none','important');cTC(cm);}
+        }
+      }
+      function sLum(rv,gv,bv){rv/=255;gv/=255;bv/=255;rv=rv<=0.03928?rv/12.92:Math.pow((rv+0.055)/1.055,2.4);gv=gv<=0.03928?gv/12.92:Math.pow((gv+0.055)/1.055,2.4);bv=bv<=0.03928?bv/12.92:Math.pow((bv+0.055)/1.055,2.4);return 0.2126*rv+0.7152*gv+0.0722*bv;}
+      window.addEventListener('scroll',onS,{passive:true});
+      window.addEventListener('resize',onS,{passive:true});
+      onS();
+      var heroEl=document.querySelector('section[class*="hero"],[data-hero-type],main>section:first-child');
+      var hasDH=false;
+      if(heroEl){var hCs=getComputedStyle(heroEl);var hBI=hCs.backgroundImage;if(hBI&&hBI!=='none'){if(hBI.indexOf('url(')!==-1){var hM2=hCs.backgroundColor.match(/\d+/g);if(hM2&&hM2.length>=3){hasDH=sLum(parseInt(hM2[0]),parseInt(hM2[1]),parseInt(hM2[2]))<0.4;}else{hasDH=true;}}else if(hBI.indexOf('gradient')!==-1){var cM=hBI.match(/rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/g);if(cM&&cM.length>0){var tLm=0;for(var ci=0;ci<cM.length;ci++){var pts=cM[ci].match(/\d+/g);tLm+=sLum(parseInt(pts[0]),parseInt(pts[1]),parseInt(pts[2]));}hasDH=(tLm/cM.length)<0.4;}else{hasDH=true;}}else{hasDH=true;}}else{var hM=hCs.backgroundColor.match(/\d+/g);if(hM&&hM.length>=3){hasDH=sLum(parseInt(hM[0]),parseInt(hM[1]),parseInt(hM[2]))<0.4;}}}
+      if(!hasDH){window.removeEventListener('scroll',onS);window.removeEventListener('resize',onS);applyScrolled();window._zappyNavNoDarkHero=true;}
+    })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+# DAiM Technology — Generative Engine Optimization Map
+
+> Darya Kraif is a professional Systems Builder who designs and delivers complete, end-to-end working systems for businesses — not just consulting or coding. Her brand is built on trust, transparency, and full ownership transfer to the client. She combines AI expertise, automation, UX/UI design, and business logic into seamless solutions. Her portfolio includes an LMS platform for a campus with 9 permission levels and a Google Apps Script automation layer, as well as an AI-powered Nanny Now marketplace. Her tone is confident, direct, and reassuring — she speaks to the fears of business owners and resolves them with clarity.
+
+---
+
+## Pages
+
+### דף הבית
+https://daim-technology-b6935d0a.zappy5.app
+דריה קרייף בונה עבורך מערכת עסקית מלאה מקצה לקצה — בינה מלאכותית, אוטומציות עסקיות ועיצוב UX בפתרון אחד שלם. הבעלות עוברת אליך.
+
+### איך זה עובד
+https://daim-technology-b6935d0a.zappy5.app/how-it-works
+גלה את התהליך המדויק שבו prompt engineering ואוטומציה עסקית הופכים לפתרון פועל — שלב אחר שלב, ללא הפתעות, עם שקיפות מלאה לאורך הדרך.
+
+### מה תקבל
+https://daim-technology-b6935d0a.zappy5.app/what-you-get
+לא ייעוץ, לא קוד חלקי — מערכת עובדת לחלוטין עם העברת בעלות מלאה. כולל אינטגרציית AI, עיצוב UX ואוטומציה חכמה שמותאמת בדיוק לעסק שלך.
+
+### מחירים
+https://daim-technology-b6935d0a.zappy5.app/pricing
+תמחור שקוף וברור לכל פתרון — אוטומציות עסקיות, מערכות AI ואפליקציות מותאמות אישית. דע בדיוק מה אתה מקבל לפני שאתה משלם שקל אחד.
+
+### צור קשר
+https://daim-technology-b6935d0a.zappy5.app/contact
+יש לך רעיון או בעיה עסקית שדורשת פתרון טכנולוגי? צור קשר עכשיו ודריה תחזור אליך עם מפת דרכים ברורה — ללא התחייבות, עם מלוא השקיפות.
+
+## Legal & Policy
+
+### Privacy Policy
+https://daim-technology-b6935d0a.zappy5.app/privacy
+Information about how user data is collected, stored, and protected.
+
+### Terms & Conditions
+https://daim-technology-b6935d0a.zappy5.app/terms
+Legal terms describing service usage, rights, and policies.
+
+### Accessibility Statement
+https://daim-technology-b6935d0a.zappy5.app/accessibility
+Information about WCAG compliance and accessibility features.
+
+---
+
+## How to Contact Us
+
+- (No contact details configured yet.)
+
+### Contact form
+- URL: https://daim-technology-b6935d0a.zappy5.app/contact
+- Endpoint: https://daim-technology-b6935d0a.zappy5.app/api/email/contact-form
+- Method: POST
+- Content-Type: application/json
+- Fields:
+  - `name` (text, required)
+  - `email` (email, required)
+  - `phone` (tel)
+  - `message` (textarea, required)
+  - `privacy_consent` (checkbox, required)
+
+---
+
+# Business Context (for LLM understanding)
+
+## About DAiM Technology
+Darya Kraif is a professional Systems Builder who designs and delivers complete, end-to-end working systems for businesses — not just consulting or coding. Her brand is built on trust, transparency, and full ownership transfer to the client. She combines AI expertise, automation, UX/UI design, and business logic into seamless solutions. Her portfolio includes an LMS platform for a campus with 9 permission levels and a Google Apps Script automation layer, as well as an AI-powered Nanny Now marketplace. Her tone is confident, direct, and reassuring — she speaks to the fears of business owners and resolves them with clarity.
+
+## Target Audience
+- בעלי עסקים, מנהלי פיתוח (CTOs), יזמים בתחילת דרכם
+- בעלי עסקים אוהבי אוטומציה
+- יזמים בתחילת דרכם
+- מנהלי פיתוח טכנולוגיים
+- יועצי IT עם דגש על אוטומציה
+- מנהלי חדשנות בארגונים
+
+## Industry
+טכנולוגיה, בינה מלאכותית, אוטומציה עסקית
+
+---
+
+# Machine-readable feeds
+
+- Sitemap (XML): https://daim-technology-b6935d0a.zappy5.app/sitemap.xml
+- Robots: https://daim-technology-b6935d0a.zappy5.app/robots.txt
+- Flattened page text (for LLMs): https://daim-technology-b6935d0a.zappy5.app/llms-full.txt
