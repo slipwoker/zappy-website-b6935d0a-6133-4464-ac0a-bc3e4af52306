@@ -9699,6 +9699,75 @@ div[id*="mic-access-tool-box"] button[class*="reset"] * {
     font-size: 2.5rem;
   }
 }
+
+.index-hero-section .index-hero-container {
+  transition: none;
+}
+
+@media (max-width: 768px) {
+.index-hero-section {
+  align-items: flex-start !important;
+  padding-bottom: 60px !important;
+  min-height: 100svh;
+}
+
+.index-hero-section .index-hero-container {
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  padding: 100px 20px 60px !important;
+  min-height: unset !important;
+}
+
+.index-hero-section .index-hero-content {
+  max-width: 100% !important;
+  gap: 16px !important;
+  padding-bottom: 0 !important;
+  align-items: flex-start !important;
+}
+
+.index-hero-section .index-hero-h1 {
+  font-size: 2rem !important;
+  line-height: 1.2 !important;
+}
+
+.index-hero-section .index-hero-subtitle {
+  font-size: 1rem !important;
+  line-height: 1.65 !important;
+  max-width: 100% !important;
+}
+
+.index-hero-section .index-hero-trust {
+  font-size: 0.8rem !important;
+  flex-wrap: wrap !important;
+  gap: 6px !important;
+}
+
+.index-hero-section .index-hero-ctas {
+  flex-direction: column !important;
+  align-items: stretch !important;
+  width: 100% !important;
+  gap: 12px !important;
+  margin-top: 8px !important;
+}
+
+.index-hero-section .index-hero-btn-primary,
+  .index-hero-section .index-hero-btn-secondary {
+  width: 100% !important;
+  justify-content: center !important;
+  text-align: center !important;
+  padding: 14px 20px !important;
+  font-size: 0.95rem !important;
+}
+
+.index-hero-section .index-hero-particles,
+  .index-hero-section .index-hero-orb-left {
+  display: none !important;
+}
+
+.index-hero-section .zappy-section-video-overlay {
+  background: rgba(10, 10, 10, 0.55) !important;
+}
+}
 /* mobile-submenu-overflow-fix */
 @media (max-width: 768px) {
   .navbar .sub-menu.mobile-expanded,
