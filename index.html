@@ -245,6 +245,327 @@
     <script src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"></script>
     <!-- Mickidum Accessibility Toolbar -->
     <script src="https://cdn.jsdelivr.net/gh/mickidum/acc_toolbar/acctoolbar/acctoolbar.min.js"></script>
+
+<style data-zappy-section-v2-css="true">
+/* V2 Regenerated Section CSS */
+.index-comparison-section {
+  position: relative;
+  background-color: #0A0A14;
+  background-image:
+    radial-gradient(circle at 85% 20%, rgba(91, 94, 247, 0.12) 0%, transparent 50%),
+    radial-gradient(circle at 15% 80%, rgba(166, 108, 255, 0.1) 0%, transparent 50%),
+    linear-gradient(180deg, #0A0A14 0%, #12121F 100%);
+  color: var(--text-light);
+  padding: 100px 24px 80px;
+  overflow: hidden;
+  direction: rtl;
+}
+
+/* Decorative orbs */
+.index-comparison-section .comp-orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+.index-comparison-section .comp-orb-right {
+  width: 480px;
+  height: 480px;
+  top: -120px;
+  inset-inline-end: -160px;
+  background: radial-gradient(circle, rgba(91, 94, 247, 0.18) 0%, transparent 70%);
+}
+.index-comparison-section .comp-orb-left {
+  width: 360px;
+  height: 360px;
+  bottom: -80px;
+  inset-inline-start: -100px;
+  background: radial-gradient(circle, rgba(166, 108, 255, 0.14) 0%, transparent 70%);
+}
+
+/* Dot grid texture */
+.index-comparison-section .comp-dot-grid {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(180, 180, 220, 0.06) 1px, transparent 1px);
+  background-size: 28px 28px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Container */
+.index-comparison-section .comp-container {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Header */
+.index-comparison-section .comp-header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+.index-comparison-section .comp-eyebrow {
+  display: inline-block;
+  font-family: 'Inter', 'Instrument Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--secondary);
+  background: rgba(166, 108, 255, 0.12);
+  border: 1px solid rgba(166, 108, 255, 0.25);
+  border-radius: 50px;
+  padding: 6px 18px;
+  margin-bottom: 20px;
+}
+.index-comparison-section .comp-title {
+  font-family: 'Syne', 'Clash Display', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--text-light);
+  margin: 0 0 16px;
+  letter-spacing: -0.01em;
+}
+.index-comparison-section .comp-subtitle {
+  font-family: 'Inter', 'Instrument Sans', sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Comparison Grid */
+.index-comparison-section .comp-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0 24px;
+  align-items: start;
+}
+
+/* VS Divider */
+.index-comparison-section .comp-vs-divider {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 88px;
+  gap: 0;
+}
+.index-comparison-section .comp-vs-line {
+  width: 2px;
+  flex: 1;
+  min-height: 60px;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.1), transparent);
+}
+.index-comparison-section .comp-vs-badge {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin: 12px 0;
+}
+
+/* Columns */
+.index-comparison-section .comp-column {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  transition: border-color 0.3s ease;
+}
+.index-comparison-section .comp-column--negative {
+  border-top: 2px solid rgba(239, 68, 68, 0.35);
+}
+.index-comparison-section .comp-column--positive {
+  border-top: 2px solid rgba(91, 94, 247, 0.5);
+  background: rgba(91, 94, 247, 0.05);
+}
+
+/* Column Header */
+.index-comparison-section .comp-col-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+  padding: 28px 28px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+.index-comparison-section .comp-col-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.index-comparison-section .comp-col-icon--negative {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+.index-comparison-section .comp-col-icon--positive {
+  background: rgba(91, 94, 247, 0.2);
+  color: var(--primary);
+}
+.index-comparison-section .comp-col-title {
+  font-family: 'Syne', 'Clash Display', sans-serif;
+  font-size: 1.375rem;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--text-light);
+  margin: 0;
+  text-align: right;
+}
+
+/* Rows */
+.index-comparison-section .comp-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px 28px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background 0.25s ease, box-shadow 0.25s ease;
+  cursor: default;
+}
+.index-comparison-section .comp-row:last-child {
+  border-bottom: none;
+}
+.index-comparison-section .comp-column--negative .comp-row:hover {
+  background: rgba(239, 68, 68, 0.07);
+  box-shadow: inset 0 0 20px rgba(239, 68, 68, 0.06);
+}
+.index-comparison-section .comp-column--positive .comp-row:hover {
+  background: rgba(91, 94, 247, 0.1);
+  box-shadow: inset 0 0 24px rgba(91, 94, 247, 0.08);
+}
+
+/* Row marker */
+.index-comparison-section .comp-row-marker {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.index-comparison-section .comp-row-marker--x {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+.index-comparison-section .comp-row-marker--check {
+  background: rgba(91, 94, 247, 0.2);
+  color: var(--secondary);
+}
+
+/* Row content */
+.index-comparison-section .comp-row-content {
+  flex: 1;
+  min-width: 0;
+}
+.index-comparison-section .comp-row-title {
+  font-family: 'Syne', 'Clash Display', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--text-light);
+  margin: 0 0 6px;
+  text-align: right;
+}
+.index-comparison-section .comp-row-desc {
+  font-family: 'Inter', 'Instrument Sans', sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin: 0;
+  text-align: right;
+}
+
+/* Glow effect on positive column hover */
+.index-comparison-section .comp-column--positive:hover {
+  border-color: rgba(91, 94, 247, 0.35);
+  box-shadow: 0 0 48px rgba(91, 94, 247, 0.12);
+}
+.index-comparison-section .comp-column--negative:hover {
+  border-color: rgba(239, 68, 68, 0.25);
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .index-comparison-section .comp-grid {
+    grid-template-columns: 1fr;
+    gap: 24px 0;
+  }
+  .index-comparison-section .comp-vs-divider {
+    flex-direction: row;
+    padding-top: 0;
+    width: 100%;
+    align-items: center;
+    gap: 0;
+  }
+  .index-comparison-section .comp-vs-line {
+    flex: 1;
+    min-height: unset;
+    height: 2px;
+    width: auto;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
+  }
+  .index-comparison-section .comp-vs-badge {
+    margin: 0 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .index-comparison-section {
+    padding: 100px 16px 60px;
+  }
+  .index-comparison-section .comp-header {
+    margin-bottom: 36px;
+  }
+  .index-comparison-section .comp-title {
+    font-size: 1.6rem;
+  }
+  .index-comparison-section .comp-col-header {
+    padding: 20px 18px 16px;
+  }
+  .index-comparison-section .comp-row {
+    padding: 16px 18px;
+    gap: 12px;
+  }
+  .index-comparison-section .comp-col-title {
+    font-size: 1.1rem;
+  }
+  .index-comparison-section .comp-orb-right,
+  .index-comparison-section .comp-orb-left {
+    display: none;
+  }
+}
+
+@media (min-width: 901px) {
+  .index-comparison-section .comp-title {
+    font-size: 2.5rem;
+  }
+}
+</style>
     <link rel="stylesheet" href="/styles.css">
 
     <style id="zappy-dropdown-submenu-styles">
@@ -872,173 +1193,151 @@
 
 </section>
 
-<section class="index-comparison-section" data-layout-spec="דף הבית-comparison" dir="rtl" id="index-comparison-section">
-  <!-- Decorative background texture -->
-  <div class="index-comparison-section__bg-texture" aria-hidden="true"></div>
-  <!-- Decorative orb -->
-  <div class="index-comparison-section__orb index-comparison-section__orb--right" aria-hidden="true"></div>
-  <div class="index-comparison-section__orb index-comparison-section__orb--left" aria-hidden="true"></div>
+<section class="index-comparison-section" data-layout-spec="דף הבית-comparison" dir="rtl" data-zappy-section="true" id="index-comparison-section">
+  <!-- Decorative background orb -->
+  <div class="comp-orb comp-orb-right" aria-hidden="true"></div>
+  <div class="comp-orb comp-orb-left" aria-hidden="true"></div>
+  <!-- Dot grid texture -->
+  <div class="comp-dot-grid" aria-hidden="true"></div>
 
-  <div class="index-comparison-section__container">
-    <!-- Header -->
-    <header class="index-comparison-section__header">
-      <span class="index-comparison-section__eyebrow">השוואה ישירה</span>
-      <h2 class="index-comparison-section__title">למה DAiM שונה מכל ספק אחר?</h2>
-      <p class="index-comparison-section__intro">רוב הספקים מוכרים לך ייעוץ, קוד, או אוטומציה בודדת. דריה בונה לך מערכת שלמה — ומעבירה לך את הבעלות המלאה עליה.</p>
-    </header>
+  <div class="comp-container">
+    <!-- Section Header -->
+    <div class="comp-header">
+      <span class="comp-eyebrow">השוואה ישירה</span>
+      <h2 class="comp-title">למה DAiM שונה מכל ספק אחר?</h2>
+      <p class="comp-subtitle">רוב הספקים מוכרים לך ייעוץ, קוד, או אוטומציה בודדת. דריה בונה לך מערכת שלמה — ומעבירה לך את הבעלות המלאה עליה.</p>
+    </div>
 
     <!-- Comparison Grid -->
-    <div class="index-comparison-section__grid zappy-preserve-css-grid" id="zappy-auto-grid-1778060251215-1e6lph" data-zappy-auto-grid="true" data-zappy-grid-align="start" data-original-item-width="551" data-original-gap="0px 32px" style="--zappy-grid-cols: 550.612px 34.775px 550.612px; grid-template-columns: 550.612px 34.775px 550.612px; display: grid; align-items: stretch !important;" data-zappy-explicit-columns="true">
+    <div class="comp-grid">
 
-      <!-- Column: What most providers do -->
-      <div class="index-comparison-section__column index-comparison-section__column--negative" data-grid-item-index="0">
-        <div class="index-comparison-section__column-header">
-          <div class="index-comparison-section__column-icon index-comparison-section__column-icon--negative">
-            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true" data-element-type="icon" data-element-id="icon-1778060251191-v6us7ssfo" data-icon-type="fontawesome" style="pointer-events: auto; cursor: pointer;"></i>
+      <!-- LEFT column: Others -->
+      <div class="comp-column comp-column--negative">
+        <div class="comp-col-header">
+          <div class="comp-col-icon comp-col-icon--negative">
+            <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
           </div>
-          <h3 class="index-comparison-section__column-title">מה רוב הספקים עושים</h3>
+          <h3 class="comp-col-title">מה רוב הספקים עושים</h3>
         </div>
 
-        <article class="index-comparison-section__tile index-comparison-section__tile--negative">
-          <div class="index-comparison-section__tile-marker index-comparison-section__tile-marker--negative">
-            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        <div class="comp-row">
+          <div class="comp-row-marker comp-row-marker--x">
+            <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
           </div>
-          <div class="index-comparison-section__tile-content">
-            <h4 class="index-comparison-section__tile-title">ייעוץ ללא ביצוע</h4>
-            <p class="index-comparison-section__tile-text">מקבלים המלצות, מסמכי אסטרטגיה, ומצגות — אבל אף אחד לא יושב ובונה בפועל. הביצוע נשאר עליך.</p>
+          <div class="comp-row-content">
+            <h4 class="comp-row-title">ייעוץ ללא ביצוע</h4>
+            <p class="comp-row-desc">מקבלים המלצות, מסמכי אסטרטגיה, ומצגות — אבל אף אחד לא יושב ובונה בפועל. הביצוע נשאר עליך.</p>
           </div>
-        </article>
-
-        <article class="index-comparison-section__tile index-comparison-section__tile--negative">
-          <div class="index-comparison-section__tile-marker index-comparison-section__tile-marker--negative">
-            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-          </div>
-          <div class="index-comparison-section__tile-content">
-            <h4 class="index-comparison-section__tile-title">קוד ללא לוגיקה עסקית</h4>
-            <p class="index-comparison-section__tile-text">מפתחים כותבים קוד נקי — אבל לא מבינים את ה-workflow שלך. התוצאה: מערכת שעובדת טכנית אבל לא פותרת את הבעיה האמיתית.</p>
-          </div>
-        </article>
-
-        <article class="index-comparison-section__tile index-comparison-section__tile--negative">
-          <div class="index-comparison-section__tile-marker index-comparison-section__tile-marker--negative">
-            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-          </div>
-          <div class="index-comparison-section__tile-content">
-            <h4 class="index-comparison-section__tile-title">תלות קבועה בספק</h4>
-            <p class="index-comparison-section__tile-text">המערכת נשארת אצלם. כל שינוי קטן עולה כסף. אתה לא יכול להפעיל, לשנות, או להבין את מה שנבנה עבורך.</p>
-          </div>
-        </article>
-
-        <article class="index-comparison-section__tile index-comparison-section__tile--negative">
-          <div class="index-comparison-section__tile-marker index-comparison-section__tile-marker--negative">
-            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-          </div>
-          <div class="index-comparison-section__tile-content">
-            <h4 class="index-comparison-section__tile-title">מורכבות נסתרת</h4>
-            <p class="index-comparison-section__tile-text">הארכיטקטורה לא מוסברת, התהליכים לא מתועדים. אתה מקבל תוצר אטום שאי אפשר לתחזק בלעדיהם.</p>
-          </div>
-        </article>
-
-        <article class="index-comparison-section__tile index-comparison-section__tile--negative">
-          <div class="index-comparison-section__tile-marker index-comparison-section__tile-marker--negative">
-            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-          </div>
-          <div class="index-comparison-section__tile-content">
-            <h4 class="index-comparison-section__tile-title">אוטומציה חד-פעמית</h4>
-            <p class="index-comparison-section__tile-text">סקריפט שפותר בעיה אחת — ומתפרק כשהעסק גדל. אין בסיס, אין גמישות, אין יכולת הרחבה.</p>
-          </div>
-        </article>
-      </div>
-
-      <!-- Divider line -->
-      <div class="index-comparison-section__divider" aria-hidden="true">
-        <div class="index-comparison-section__divider-line"></div>
-        <div class="index-comparison-section__divider-badge">VS</div>
-        <div class="index-comparison-section__divider-line"></div>
-      </div>
-
-      <!-- Column: What Darya delivers -->
-      <div class="index-comparison-section__column index-comparison-section__column--positive" data-grid-item-index="1" style="display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: stretch !important; align-self: stretch !important; height: 100% !important;">
-        <div class="index-comparison-section__column-header">
-          <div class="index-comparison-section__column-icon index-comparison-section__column-icon--positive">
-            <i class="fa-solid fa-circle-check" aria-hidden="true" data-element-type="icon" data-element-id="icon-1778060251191-vfrskjrit" data-icon-type="fontawesome" style="pointer-events: auto; cursor: pointer;"></i>
-          </div>
-          <h3 class="index-comparison-section__column-title">מה דריה מספקת</h3>
         </div>
 
-        <article class="index-comparison-section__tile index-comparison-section__tile--positive">
-          <div class="index-comparison-section__tile-marker index-comparison-section__tile-marker--positive">
-            <i class="fa-solid fa-check" aria-hidden="true"></i>
+        <div class="comp-row">
+          <div class="comp-row-marker comp-row-marker--x">
+            <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
           </div>
-          <div class="index-comparison-section__tile-content">
-            <h4 class="index-comparison-section__tile-title">בנייה מקצה לקצה</h4>
-            <p class="index-comparison-section__tile-text">לא ייעוץ — מסירה. דריה בונה את המערכת בפועל, מהרעיון הראשוני ועד למוצר עובד שמוכן לשימוש מיידי.</p>
+          <div class="comp-row-content">
+            <h4 class="comp-row-title">קוד ללא לוגיקה עסקית</h4>
+            <p class="comp-row-desc">מפתחים כותבים קוד נקי — אבל לא מבינים את ה-workflow שלך. התוצאה: מערכת שעובדת טכנית אבל לא פותרת את הבעיה האמיתית.</p>
           </div>
-        </article>
+        </div>
 
-        <article class="index-comparison-section__tile index-comparison-section__tile--positive">
-          <div class="index-comparison-section__tile-marker index-comparison-section__tile-marker--positive">
-            <i class="fa-solid fa-check" aria-hidden="true"></i>
+        <div class="comp-row">
+          <div class="comp-row-marker comp-row-marker--x">
+            <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
           </div>
-          <div class="index-comparison-section__tile-content">
-            <h4 class="index-comparison-section__tile-title">חשיבה מערכתית משולבת</h4>
-            <p class="index-comparison-section__tile-text">כל פתרון מתוכנן סביב הלוגיקה העסקית שלך — AI, אוטומציה, UX ו-business flow משתלבים לכדי מערכת אחת קוהרנטית.</p>
+          <div class="comp-row-content">
+            <h4 class="comp-row-title">תלות קבועה בספק</h4>
+            <p class="comp-row-desc">המערכת נשארת אצלם. כל שינוי קטן עולה כסף. אתה לא יכול להפעיל, לשנות, או להבין את מה שנבנה עבורך.</p>
           </div>
-        </article>
+        </div>
 
-        <article class="index-comparison-section__tile index-comparison-section__tile--positive">
-          <div class="index-comparison-section__tile-marker index-comparison-section__tile-marker--positive">
-            <i class="fa-solid fa-check" aria-hidden="true"></i>
+        <div class="comp-row">
+          <div class="comp-row-marker comp-row-marker--x">
+            <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
           </div>
-          <div class="index-comparison-section__tile-content">
-            <h4 class="index-comparison-section__tile-title">בעלות מלאה ללקוח</h4>
-            <p class="index-comparison-section__tile-text">המערכת שלך — לגמרי. קוד, תיעוד, גישה, והדרכה. אתה יכול להפעיל, לשנות ולהרחיב בעצמך ביום שאחרי.</p>
+          <div class="comp-row-content">
+            <h4 class="comp-row-title">מורכבות נסתרת</h4>
+            <p class="comp-row-desc">הארכיטקטורה לא מוסברת, התהליכים לא מתועדים. אתה מקבל תוצר אטום שאי אפשר לתחזק בלעדיהם.</p>
           </div>
-        </article>
+        </div>
 
-        <article class="index-comparison-section__tile index-comparison-section__tile--positive">
-          <div class="index-comparison-section__tile-marker index-comparison-section__tile-marker--positive">
-            <i class="fa-solid fa-check" aria-hidden="true"></i>
+        <div class="comp-row">
+          <div class="comp-row-marker comp-row-marker--x">
+            <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
           </div>
-          <div class="index-comparison-section__tile-content">
-            <h4 class="index-comparison-section__tile-title">ארכיטקטורה שקופה</h4>
-            <p class="index-comparison-section__tile-text">כל החלטת עיצוב מוסברת. תקבל תיעוד מלא, מפת מערכת ברורה, ותדע בדיוק איך כל חלק עובד ולמה.</p>
+          <div class="comp-row-content">
+            <h4 class="comp-row-title">אוטומציה חד-פעמית</h4>
+            <p class="comp-row-desc">סקריפט שפותר בעיה אחת — ומתפרק כשהעסק גדל. אין בסיס, אין גמישות, אין יכולת הרחבה.</p>
           </div>
-        </article>
+        </div>
+      </div>
 
-        <article class="index-comparison-section__tile index-comparison-section__tile--positive">
-          <div class="index-comparison-section__tile-marker index-comparison-section__tile-marker--positive">
-            <i class="fa-solid fa-check" aria-hidden="true"></i>
+      <!-- VS Divider -->
+      <div class="comp-vs-divider">
+        <div class="comp-vs-line"></div>
+        <div class="comp-vs-badge">VS</div>
+        <div class="comp-vs-line"></div>
+      </div>
+
+      <!-- RIGHT column: Darya -->
+      <div class="comp-column comp-column--positive">
+        <div class="comp-col-header">
+          <div class="comp-col-icon comp-col-icon--positive">
+            <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
           </div>
-          <div class="index-comparison-section__tile-content">
-            <h4 class="index-comparison-section__tile-title">בסיס סקיילבילי לצמיחה</h4>
-            <p class="index-comparison-section__tile-text">המערכת בנויה לגדול איתך. אוטומציות עסקיות מודולריות שניתן להרחיב, לשכפל ולהתאים כשהעסק מתפתח.</p>
+          <h3 class="comp-col-title">מה דריה מספקת</h3>
+        </div>
+
+        <div class="comp-row">
+          <div class="comp-row-marker comp-row-marker--check">
+            <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
           </div>
-        </article>
+          <div class="comp-row-content">
+            <h4 class="comp-row-title">בנייה מקצה לקצה</h4>
+            <p class="comp-row-desc">לא ייעוץ — מסירה. דריה בונה את המערכת בפועל, מהרעיון הראשוני ועד למוצר עובד שמוכן לשימוש מיידי.</p>
+          </div>
+        </div>
+
+        <div class="comp-row">
+          <div class="comp-row-marker comp-row-marker--check">
+            <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <div class="comp-row-content">
+            <h4 class="comp-row-title">חשיבה מערכתית משולבת</h4>
+            <p class="comp-row-desc">כל פתרון מתוכנן סביב הלוגיקה העסקית שלך — AI, אוטומציה, UX ו-business flow משתלבים לכדי מערכת אחת קוהרנטית.</p>
+          </div>
+        </div>
+
+        <div class="comp-row">
+          <div class="comp-row-marker comp-row-marker--check">
+            <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <div class="comp-row-content">
+            <h4 class="comp-row-title">בעלות מלאה ללקוח</h4>
+            <p class="comp-row-desc">המערכת שלך — לגמרי. קוד, תיעוד, גישה, והדרכה. אתה יכול להפעיל, לשנות ולהרחיב בעצמך ביום שאחרי.</p>
+          </div>
+        </div>
+
+        <div class="comp-row">
+          <div class="comp-row-marker comp-row-marker--check">
+            <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <div class="comp-row-content">
+            <h4 class="comp-row-title">ארכיטקטורה שקופה</h4>
+            <p class="comp-row-desc">כל החלטת עיצוב מוסברת. תקבל תיעוד מלא, מפת מערכת ברורה, ותדע בדיוק איך כל חלק עובד ולמה.</p>
+          </div>
+        </div>
+
+        <div class="comp-row">
+          <div class="comp-row-marker comp-row-marker--check">
+            <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <div class="comp-row-content">
+            <h4 class="comp-row-title">בסיס סקיילבילי לצמיחה</h4>
+            <p class="comp-row-desc">המערכת בנויה לגדול איתך. אוטומציות עסקיות מודולריות שניתן להרחיב, לשכפל ולהתאים כשהעסק מתפתח.</p>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-
-  <!-- Bottom diagonal glow divider -->
-  <div class="index-comparison-section__divider-wrapper" aria-hidden="true">
-    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="divGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#F4F1EC" stop-opacity="1"></stop>
-          <stop offset="100%" stop-color="#F4F1EC" stop-opacity="1"></stop>
-        </linearGradient>
-        <linearGradient id="glowSeam" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#5B5EF7" stop-opacity="0"></stop>
-          <stop offset="35%" stop-color="#A66CFF" stop-opacity="0.55"></stop>
-          <stop offset="65%" stop-color="#5B5EF7" stop-opacity="0.4"></stop>
-          <stop offset="100%" stop-color="#F08A5D" stop-opacity="0"></stop>
-        </linearGradient>
-      </defs>
-      <!-- Glow seam line -->
-      <line x1="0" y1="55" x2="1440" y2="20" stroke="url(#glowSeam)" stroke-width="2"></line>
-      <!-- Fill bottom toward next section -->
-      <path d="M0,90 L0,55 L1440,20 L1440,90 Z" fill="var(--bg-light)"></path>
-    </svg>
   </div>
 </section>
 
