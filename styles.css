@@ -9725,6 +9725,51 @@ div[id*="mic-access-tool-box"] button[class*="reset"] * {
 .navbar .phone-header-btn svg {
   filter: none !important;
 }
+
+@media (max-width: 768px) {
+.index-hero-section {
+  overflow: hidden !important;
+}
+
+.index-hero-section .zappy-section-video-bg {
+  overflow: hidden !important;
+}
+
+.index-hero-section .zappy-section-video {
+  width: 100% !important;
+  height: 100% !important;
+  min-width: unset !important;
+  min-height: unset !important;
+  object-fit: cover !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+}
+}
+
+@media (max-width: 768px) {
+.navbar .phone-header-btn {
+  background: rgba(37, 211, 102, 0.15) !important;
+  border: 1.5px solid rgba(37, 211, 102, 0.45) !important;
+  color: #25D366 !important;
+  width: 38px !important;
+  height: 38px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+}
+
+.navbar .phone-header-btn svg {
+  width: 22px !important;
+  height: 22px !important;
+  fill: #25D366 !important;
+  color: #25D366 !important;
+  flex-shrink: 0 !important;
+}
+}
 /* mobile-submenu-overflow-fix */
 @media (max-width: 768px) {
   .navbar .sub-menu.mobile-expanded,
