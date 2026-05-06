@@ -9703,6 +9703,29 @@ div[id*="mic-access-tool-box"] button[class*="reset"] * {
   top: 45% !important;
 }
 }
+
+@media (max-width: 768px) {
+.index-hero-section .zappy-section-video {
+  left: 70% !important;
+}
+}
+
+@media (max-width: 768px) {
+.index-hero-section .zappy-section-video {
+  object-position: 80% 40% !important;
+}
+}
+
+.navbar .phone-header-btn {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.navbar .phone-header-btn svg {
+  filter: none !important;
+}
 /* mobile-submenu-overflow-fix */
 @media (max-width: 768px) {
   .navbar .sub-menu.mobile-expanded,
