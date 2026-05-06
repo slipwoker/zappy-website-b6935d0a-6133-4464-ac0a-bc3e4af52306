@@ -44,7 +44,10 @@ Information about WCAG compliance and accessibility features.
 
 ## How to Contact Us
 
-- (No contact details configured yet.)
+- Email: daryask89@gmail.com
+- Phone: 972544489858
+- Phone (tel): tel:972544489858
+- Address: Zofim, Zofim, Israel
 
 ### Contact form
 - URL: https://example.com/contact
