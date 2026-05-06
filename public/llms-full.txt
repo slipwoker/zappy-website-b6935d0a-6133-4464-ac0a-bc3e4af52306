@@ -2,13 +2,13 @@
 
 Darya Kraif is a professional Systems Builder who designs and delivers complete, end-to-end working systems for businesses — not just consulting or coding. Her brand is built on trust, transparency, and full ownership transfer to the client. She combines AI expertise, automation, UX/UI design, and business logic into seamless solutions. Her portfolio includes an LMS platform for a campus with 9 permission levels and a Google Apps Script automation layer, as well as an AI-powered Nanny Now marketplace. Her tone is confident, direct, and reassuring — she speaks to the fears of business owners and resolves them with clarity.
 
-Source: https://daim-technology-b6935d0a.zappy5.app
+Source: https://example.com
 
 ---
 
 ## בונים מערכות שעובדות — DAiM Technology
 
-URL: https://daim-technology-b6935d0a.zappy5.app
+URL: https://example.com
 Description: דריה קרייף בונה עבורך מערכת עסקית מלאה מקצה לקצה — בינה מלאכותית, אוטומציות עסקיות ועיצוב UX בפתרון אחד שלם. הבעלות עוברת אליך.
 
 בונים מערכות שעובדות — DAiM Technology
@@ -812,7 +812,7 @@ Data Architecture
 
 ## כך הופכים רעיון למערכת חיה — DAiM Technology
 
-URL: https://daim-technology-b6935d0a.zappy5.app/how-it-works
+URL: https://example.com/how-it-works
 Description: גלה את התהליך המדויק שבו prompt engineering ואוטומציה עסקית הופכים לפתרון פועל — שלב אחר שלב, ללא הפתעות, עם שקיפות מלאה לאורך הדרך.
 
 כך הופכים רעיון למערכת חיה — DAiM Technology
@@ -1325,7 +1325,7 @@ Scale
 
 ## מה מקבלים בסוף הדרך — DAiM Technology
 
-URL: https://daim-technology-b6935d0a.zappy5.app/what-you-get
+URL: https://example.com/what-you-get
 Description: לא ייעוץ, לא קוד חלקי — מערכת עובדת לחלוטין עם העברת בעלות מלאה. כולל אינטגרציית AI, עיצוב UX ואוטומציה חכמה שמותאמת בדיוק לעסק שלך.
 
 מה מקבלים בסוף הדרך — DAiM Technology
@@ -1853,7 +1853,7 @@ VS
 
 ## השקעה חכמה בטכנולוגיה שעובדת — DAiM Technology
 
-URL: https://daim-technology-b6935d0a.zappy5.app/pricing
+URL: https://example.com/pricing
 Description: תמחור שקוף וברור לכל פתרון — אוטומציות עסקיות, מערכות AI ואפליקציות מותאמות אישית. דע בדיוק מה אתה מקבל לפני שאתה משלם שקל אחד.
 
 השקעה חכמה בטכנולוגיה שעובדת — DAiM Technology
@@ -2316,7 +2316,7 @@ Description: תמחור שקוף וברור לכל פתרון — אוטומצי
 
 ## מתחילים לבנות את המערכת שלך היום — DAiM Technology
 
-URL: https://daim-technology-b6935d0a.zappy5.app/contact
+URL: https://example.com/contact
 Description: יש לך רעיון או בעיה עסקית שדורשת פתרון טכנולוגי? צור קשר עכשיו ודריה תחזור אליך עם מפת דרכים ברורה — ללא התחייבות, עם מלוא השקיפות.
 
 מתחילים לבנות את המערכת שלך היום — DAiM Technology
@@ -2739,7 +2739,7 @@ DAiM Technology — מערכות שעובדות. בעלות שנשארת.
 
 ## מדיניות פרטיות
 
-URL: https://daim-technology-b6935d0a.zappy5.app/privacy
+URL: https://example.com/privacy
 Description: מדיניות הפרטיות שלנו - כיצד אנו אוספים, משתמשים ומגנים על המידע שלכם
 
 מדיניות פרטיות
@@ -2986,7 +2986,7 @@ DAiM Technology ("החברה", "אנו", "שלנו") מחויבת להגן על 
 
 ## הצהרת נגישות
 
-URL: https://daim-technology-b6935d0a.zappy5.app/accessibility
+URL: https://example.com/accessibility
 Description: הצהרת הנגישות שלנו - מחויבותנו לנגישות דיגיטלית
 
 הצהרת נגישות
@@ -3242,7 +3242,7 @@ DAiM Technology מחויבת להנגיש את השירותים לכלל הצי�
 
 ## תנאי שימוש
 
-URL: https://daim-technology-b6935d0a.zappy5.app/terms
+URL: https://example.com/terms
 Description: תנאי השימוש באתר - הזכויות והחובות של המשתמשים
 
 תנאי שימוש
