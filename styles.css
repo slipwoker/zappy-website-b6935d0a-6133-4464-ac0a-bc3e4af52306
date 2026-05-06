@@ -9768,6 +9768,16 @@ div[id*="mic-access-tool-box"] button[class*="reset"] * {
   background: rgba(10, 10, 10, 0.55) !important;
 }
 }
+
+@media (max-width: 768px) {
+.index-hero-section .zappy-section-video {
+  object-position: right center !important;
+}
+
+.index-hero-section .index-hero-bg img {
+  object-position: right center !important;
+}
+}
 /* mobile-submenu-overflow-fix */
 @media (max-width: 768px) {
   .navbar .sub-menu.mobile-expanded,
