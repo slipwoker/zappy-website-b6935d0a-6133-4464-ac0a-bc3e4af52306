@@ -9778,6 +9778,13 @@ div[id*="mic-access-tool-box"] button[class*="reset"] * {
   object-position: right center !important;
 }
 }
+
+@media (max-width: 768px) {
+.index-hero-section .zappy-section-video {
+  left: 65% !important;
+  top: 45% !important;
+}
+}
 /* mobile-submenu-overflow-fix */
 @media (max-width: 768px) {
   .navbar .sub-menu.mobile-expanded,
